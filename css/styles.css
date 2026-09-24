@@ -74,6 +74,8 @@ h2 { font-size: clamp(2.1rem, 4vw, 3.35rem); }
 .booking .button:hover { background: #e7a5a9; }
 footer { color: var(--muted); font-size: .78rem; padding: 26px 0; }
 .footer-row { align-items: center; display: flex; justify-content: space-between; }
+.back-to-top { border-bottom: 1px solid var(--rose); color: var(--rose-dark); font-weight: 700; padding-bottom: 2px; }
+.back-to-top:hover { color: var(--rose); }
 
 @media (max-width: 760px) {
     header { height: 72px; } nav { display: none; }
