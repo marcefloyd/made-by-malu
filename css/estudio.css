@@ -1,0 +1,1153 @@
+/*
+ * GUIA DE ESTUDIO: CSS DE MADE BY MALU
+ *
+ * Este archivo es una copia didactica de css/styles.css. Los comentarios explican
+ * la sintaxis, los selectores, las propiedades y los valores usados en el sitio.
+ *
+ * IMPORTANTE: index.html carga css/styles.css, no este archivo. Por eso, estudiar
+ * o modificar esta copia no cambia la pagina publicada. Para cambiar el sitio,
+ * modifica styles.css; despues puedes actualizar esta guia para que coincida.
+ *
+ * MAPA RAPIDO DE SINTAXIS
+ * - Un selector indica a que elemento o grupo de elementos se aplica una regla.
+ * - Las llaves { y } abren y cierran el bloque de declaraciones del selector.
+ * - Dentro de las llaves, propiedad: valor; asigna un valor a una propiedad.
+ * - Los dos puntos : separan el nombre de la propiedad de su valor.
+ * - El punto y coma ; termina una declaracion. Es importante entre propiedades.
+ * - El punto . inicia un selector de clase; # inicia un selector de id.
+ * - Los dos puntos dobles :: seleccionan una parte generada del elemento, como
+ *   ::before, o una parte visual del navegador, como ::-webkit-scrollbar.
+ * - El signo @ inicia una instruccion especial de CSS, por ejemplo @media.
+ * - Los parentesis () agrupan argumentos de funciones, como rgb(), min() o var().
+ * - La coma , separa alternativas, argumentos o selectores agrupados.
+ * - La barra / puede dividir valores, por ejemplo 4 / 5 en aspect-ratio.
+ * - Los comentarios /* ... * / sirven para explicar el codigo y el navegador los
+ *   ignora. En esta guia aparecen antes de las reglas para no alterar su efecto.
+ *
+ * UNIDADES FRECUENTES
+ * - px: pixeles CSS, unidad fija relativa a la escala del navegador.
+ * - rem: unidad relativa al tamano de letra de la raiz html; normalmente 1rem es
+ *   16px, aunque la persona puede cambiar ese valor en su navegador.
+ * - %: proporcion del tamano disponible del elemento contenedor.
+ * - vw y vh: 1% del ancho y de la altura de la ventana del navegador.
+ * - s: segundos; se usa en duraciones de animacion o transicion.
+ * - deg: grados de rotacion.
+ */
+
+/*
+ * IMPORTACION DE FUENTES
+ * @import es una regla-at: la arroba indica una instruccion para CSS, no una
+ * propiedad normal. url(...) contiene la direccion del recurso externo.
+ * Las comillas delimitan la URL. Los signos ? y & separan parametros de la URL.
+ * family selecciona cada familia tipografica; wght enumera pesos disponibles.
+ * display=swap permite mostrar una fuente alternativa mientras carga Google Fonts.
+ * Esta regla debe estar antes de las reglas de estilo normales del archivo.
+ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Great+Vibes&family=Playfair+Display:wght@500;600;700&display=swap');
+
+/*
+ * PALETA Y VARIABLES GLOBALES
+ * :root selecciona el elemento raiz del documento, normalmente <html>.
+ * Las variables personalizadas empiezan con dos guiones: --nombre.
+ * Se declaran aqui para poder reutilizarlas en distintas reglas con var(...).
+ * Cada valor hexadecimal empieza con # y codifica rojo, verde y azul en base 16.
+ */
+:root {
+	/* Color principal de texto y fondo oscuro: hexadecimal #2c2426. */
+	--ink: #2c2426;
+	/* Texto secundario de contraste suave: hexadecimal #75686b. */
+	--muted: #75686b;
+	/* Rosa de marca usado en botones y elementos destacados. */
+	--rose: #b86f78;
+	/* Variante mas oscura del rosa para texto, bordes y estados hover. */
+	--rose-dark: #914e5a;
+	/* Rosa muy claro para fondos secundarios y estados suaves. */
+	--blush: #f8e9e8;
+	/* Fondo marfil claro de la pagina. */
+	--cream: #fffaf6;
+	/* Color de lineas y bordes delicados. */
+	--line: #ead8d5;
+	/* Blanco puro para superficies y texto sobre fondos oscuros. */
+	--white: #ffffff;
+}
+
+/*
+ * REGLA UNIVERSAL Y NORMALIZACION
+ * El asterisco * es el selector universal: alcanza todos los elementos.
+ * Esta regla elimina margenes y rellenos por defecto del navegador y define
+ * como se calculan sus dimensiones. box-sizing: border-box hace que el ancho
+ * incluya contenido, padding y borde, facilitando calcular medidas.
+ */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/*
+ * html selecciona la raiz del documento. scroll-behavior afecta los desplazamientos
+ * iniciados por enlaces internos como href="#contacto" y los vuelve graduales.
+ */
+html {
+	scroll-behavior: smooth;
+}
+
+/*
+ * body selecciona el cuerpo visible de la pagina.
+ * background usa var(--cream): var(...) lee una variable personalizada.
+ * color establece el color de texto heredable; font-family define el orden de
+ * fuentes alternativas. Las comillas permiten el nombre con espacios; sans-serif
+ * es el respaldo generico si DM Sans no carga.
+ * line-height: 1.6 expresa una altura de linea 1.6 veces el tamano de letra.
+ */
+body {
+	background: var(--cream);
+	color: var(--ink);
+	font-family: 'DM Sans', sans-serif;
+	line-height: 1.6;
+}
+
+/*
+ * a selecciona todos los enlaces HTML. color: inherit hereda el color del padre.
+ * text-decoration: none quita el subrayado por defecto; los estilos de cada enlace
+ * pueden volver a agregar un borde u otra decoracion cuando resulte util.
+ */
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/*
+ * .container selecciona elementos cuyo atributo class incluye "container".
+ * El punto inicial significa clase. margin: 0 auto pone cero margen vertical y
+ * distribuye automaticamente el espacio horizontal, centrando el contenedor.
+ * max-width limita su ancho; padding deja espacio interior a ambos lados.
+ */
+.container {
+	margin: 0 auto;
+	max-width: 1160px;
+	padding: 0 28px;
+}
+
+/*
+ * header selecciona elementos HTML <header>.
+ * display:flex organiza los hijos directos en un eje horizontal por defecto.
+ * align-items:center los centra en el eje vertical; justify-content:space-between
+ * reparte el espacio libre entre el primer y ultimo hijo.
+ * height fija la altura de la cabecera en escritorio.
+ */
+header {
+	align-items: center;
+	display: flex;
+	height: 100px;
+	justify-content: space-between;
+}
+
+/* .logo selecciona el enlace que contiene el nombre de marca. Flex centra su hijo. */
+.logo {
+	align-items: center;
+	display: flex;
+}
+
+/*
+ * .logo-wordmark es el contenedor de las dos lineas de la marca.
+ * flex-direction:column coloca los hijos uno debajo del otro.
+ * height reserva una zona vertical; justify-content: flex-start los inicia arriba.
+ * padding-top agrega espacio dentro de la caja, antes de su contenido.
+ */
+.logo-wordmark {
+	display: flex;
+	flex-direction: column;
+	height: 84px;
+	justify-content: flex-start;
+	padding-top: 6px;
+}
+
+/*
+ * .logo-main estiliza la palabra principal "Made".
+ * color toma el rosa oscuro de la paleta. font-family usa la letra manuscrita
+ * Great Vibes; cursive es una familia generica de respaldo.
+ * font-size usa rem. line-height menor que 1 compacta las lineas de la marca.
+ */
+.logo-main {
+	color: var(--rose-dark);
+	font-family: 'Great Vibes', cursive;
+	font-size: 3.55rem;
+	line-height: .82;
+}
+
+/*
+ * .logo-by da estilo a la segunda linea "by Malu".
+ * margin-left desplaza esta linea a la derecha respecto del inicio de la primera.
+ * white-space:nowrap evita que el texto se parta en varias lineas.
+ */
+.logo-by {
+	color: var(--rose-dark);
+	font-family: 'Great Vibes', cursive;
+	font-size: 2.45rem;
+	line-height: .82;
+	margin-left: 15px;
+	white-space: nowrap;
+}
+
+/*
+ * nav selecciona la region semantica de navegacion.
+ * Flex pone los enlaces en fila; gap crea separacion uniforme entre ellos.
+ */
+nav {
+	align-items: center;
+	display: flex;
+	gap: 30px;
+}
+
+/* El selector descendiente nav a selecciona cada enlace a que esta dentro de nav. */
+nav a {
+	color: var(--muted);
+	font-size: .88rem;
+}
+
+/*
+ * :hover es una pseudoclase: se activa cuando el puntero esta sobre el enlace.
+ * No forma parte del HTML; representa un estado interactivo del elemento.
+ */
+nav a:hover {
+	color: var(--rose-dark);
+}
+
+/*
+ * .button da estilo comun a enlaces que funcionan como botones.
+ * background establece el relleno; border:0 quita el borde del navegador.
+ * border-radius redondea esquinas; display:inline-block permite aplicar padding
+ * y dimensiones conservando el flujo de texto en linea.
+ * font-size y font-weight controlan tamano y grosor de letra.
+ * letter-spacing separa ligeramente las letras; padding agrega espacio interior.
+ * text-transform:uppercase cambia visualmente las letras a mayusculas.
+ * transition enumera las propiedades que cambian suavemente, su duracion y curva.
+ * La coma separa dos transiciones; .2s significa dos decimas de segundo.
+ */
+.button {
+	background: var(--rose);
+	border: 0;
+	border-radius: 4px;
+	color: white;
+	display: inline-block;
+	font-size: .8rem;
+	font-weight: 700;
+	letter-spacing: .04em;
+	padding: 14px 22px;
+	text-transform: uppercase;
+	transition: background .2s, transform .2s;
+}
+
+/* El estado hover del boton oscurece el fondo y lo eleva 2px en el eje Y. */
+.button:hover {
+	background: var(--rose-dark);
+	transform: translateY(-2px);
+}
+
+/*
+ * .hero selecciona el bloque de portada. display:grid crea una cuadricula.
+ * grid-template-columns:1fr 1fr crea dos columnas iguales; fr significa fraccion
+ * del espacio disponible. gap separa columnas. min-height evita una portada baja.
+ * padding usa el orden vertical-horizontal solo cuando hay dos valores; aqui hay
+ * cuatro: arriba, derecha, abajo, izquierda, siguiendo el sentido de un reloj.
+ */
+.hero {
+	align-items: center;
+	display: grid;
+	gap: 70px;
+	grid-template-columns: 1fr 1fr;
+	min-height: 610px;
+	padding: 54px 0 82px;
+}
+
+/*
+ * .eyebrow identifica rotulos pequenos sobre titulos.
+ * font-weight:700 usa una variante negrita; letter-spacing distribuye letras.
+ * margin-bottom separa el rotulo del contenido que viene debajo.
+ * text-transform transforma visualmente el texto, no cambia el HTML original.
+ */
+.eyebrow {
+	color: var(--rose-dark);
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: .17em;
+	margin-bottom: 18px;
+	text-transform: uppercase;
+}
+
+/*
+ * La coma agrupa h1, h2 y h3 para compartir tipografia, grosor y altura de linea.
+ * font-weight:600 es un peso seminegrita. line-height:1.1 deja las lineas cercanas.
+ */
+h1, h2, h3 {
+	font-family: 'Playfair Display', serif;
+	font-weight: 600;
+	line-height: 1.1;
+}
+
+/* h1 es el titulo principal. clamp(minimo, preferido, maximo) limita su escala. */
+h1 {
+	font-size: clamp(3.3rem, 6vw, 5.35rem);
+	letter-spacing: -.035em;
+	max-width: 570px;
+}
+
+/*
+ * h1 em selecciona un elemento <em> descendiente de h1.
+ * font-style:normal quita la cursiva por defecto de <em>; el color destaca el texto.
+ */
+h1 em {
+	color: var(--rose);
+	font-style: normal;
+}
+
+/* Copia, color, ancho maximo y margenes del texto introductorio de la portada. */
+.hero-copy {
+	color: var(--muted);
+	font-size: 1.04rem;
+	margin: 25px 0 31px;
+	max-width: 440px;
+}
+
+/* Flex distribuye las acciones del hero en una fila y gap las separa. */
+.hero-links {
+	align-items: center;
+	display: flex;
+	gap: 24px;
+}
+
+/*
+ * .text-link es un enlace de texto subrayado con borde inferior, no con la
+ * decoracion por defecto. padding-bottom separa el texto de esa linea.
+ */
+.text-link {
+	border-bottom: 1px solid var(--rose);
+	color: var(--rose-dark);
+	font-size: .82rem;
+	font-weight: 700;
+	padding-bottom: 3px;
+}
+
+/*
+ * .hero-art reserva espacio para la ilustracion abstracta de la portada.
+ * position:relative crea el contexto de posicion para sus hijos absolutos.
+ */
+.hero-art {
+	min-height: 470px;
+	position: relative;
+}
+
+/* Forma de fondo de la ilustracion: position:absolute la ubica frente al contenedor. */
+.art-back {
+	background: var(--blush);
+	border-radius: 47% 47% 5px 5px;
+	height: 430px;
+	position: absolute;
+	right: 15px;
+	top: 4px;
+	transform: rotate(4deg);
+	width: min(390px, 85%);
+}
+
+/* Forma frontal: overflow:hidden recorta los adornos que sobresalgan de su caja. */
+.art-front {
+	background: #e6a9a8;
+	border-radius: 48% 48% 7px 7px;
+	height: 430px;
+	overflow: hidden;
+	position: absolute;
+	right: 52px;
+	top: 0;
+	width: min(390px, 85%);
+}
+
+/*
+ * ::before crea una pieza decorativa antes del contenido real de .art-front.
+ * content:'' es obligatorio para generar el pseudoelemento; la cadena vacia no
+ * muestra letras. left y top lo ubican; width/height definen su tamanio.
+ */
+.art-front::before {
+	background: #f5d0c8;
+	border-radius: 50%;
+	content: '';
+	height: 250px;
+	left: 70px;
+	position: absolute;
+	top: 80px;
+	width: 250px;
+}
+
+/*
+ * ::after genera otra decoracion despues del contenido. rgba() define rojo,
+ * verde, azul y alfa/transparencia; .65 equivale a 65% de opacidad.
+ * border dibuja una linea de 2px continua; border-radius:50% produce un circulo.
+ */
+.art-front::after {
+	border: 2px solid rgba(255,255,255,.65);
+	border-radius: 50%;
+	content: '';
+	height: 220px;
+	left: 84px;
+	position: absolute;
+	top: 95px;
+	width: 220px;
+}
+
+/* Nota superpuesta: box-shadow agrega sombra; z-index la coloca sobre otras capas. */
+.art-note {
+	background: var(--white);
+	bottom: 38px;
+	box-shadow: 0 10px 30px rgba(89,48,53,.13);
+	font-family: 'Playfair Display', serif;
+	left: 0;
+	padding: 18px 22px;
+	position: absolute;
+	transform: rotate(-6deg);
+	width: 172px;
+	z-index: 2;
+}
+
+/* El selector descendiente limita este color y display al strong dentro de .art-note. */
+.art-note strong {
+	color: var(--rose-dark);
+	display: block;
+	font-size: 1.45rem;
+}
+
+/* Texto secundario dentro de la nota; vuelve a usar la familia general DM Sans. */
+.art-note span {
+	color: var(--muted);
+	font-family: 'DM Sans', sans-serif;
+	font-size: .7rem;
+}
+
+/*
+ * .nail da forma comun a los cuatro adornos de la ilustracion.
+ * border-radius con cuatro porcentajes redondea cada esquina de forma distinta.
+ * transform gira la pieza alrededor de su centro; z-index controla su capa visual.
+ */
+.nail {
+	background: #fff4ed;
+	border-radius: 60% 60% 48% 48%;
+	height: 70px;
+	position: absolute;
+	transform: rotate(-28deg);
+	width: 40px;
+	z-index: 1;
+}
+
+/*
+ * .nail.one combina dos clases: una clase base y una variante de posicion.
+ * La coma separa tres selectores independientes. En cada variante, left/top dan
+ * coordenadas dentro del padre posicionado y transform cambia el angulo.
+ */
+.nail.one {
+	left: 124px;
+	top: 155px;
+}
+
+.nail.two {
+	left: 170px;
+	top: 135px;
+	transform: rotate(-10deg);
+}
+
+.nail.three {
+	left: 218px;
+	top: 144px;
+	transform: rotate(13deg);
+}
+
+.nail.four {
+	left: 260px;
+	top: 170px;
+	transform: rotate(29deg);
+}
+
+/*
+ * section selecciona todos los elementos semanticos <section>.
+ * El padding de dos valores significa vertical y horizontal: 95px arriba/abajo,
+ * 0 a izquierda/derecha. Los contenedores internos controlan el ancho horizontal.
+ */
+section {
+	padding: 95px 0;
+}
+
+/* Encabezado de seccion: alinea el titulo y el texto descriptivo en sus extremos. */
+.section-head {
+	align-items: end;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 42px;
+}
+
+/* h2 define el tamano de subtitulos de seccion con minimo, escala preferida y maximo. */
+h2 {
+	font-size: clamp(2.1rem, 4vw, 3.35rem);
+}
+
+/* Parrafo de .section-head: color secundario y limite de ancho para lectura. */
+.section-head p {
+	color: var(--muted);
+	max-width: 320px;
+}
+
+/* Fondo rosado claro que distingue la seccion de servicios. */
+.services {
+	background: #f6e7e4;
+}
+
+/* Cuadricula de servicios: tres columnas iguales y un espacio de 18px. */
+.service-grid {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+/* Cada tarjeta tiene fondo blanco, una linea superior rosa y espacio interior. */
+.service-card {
+	background: var(--white);
+	border-top: 3px solid var(--rose);
+	padding: 30px 27px;
+}
+
+/* Numero de servicio: rosa, fuente serif y tamano destacado. */
+.service-number {
+	color: var(--rose);
+	font-family: 'Playfair Display', serif;
+	font-size: 1.7rem;
+}
+
+/* h3 dentro de una tarjeta: tamano y margen alrededor del titulo. */
+.service-card h3 {
+	font-size: 1.5rem;
+	margin: 16px 0 10px;
+}
+
+/* Texto descriptivo: color tenue y altura minima para alinear tarjetas. */
+.service-card p {
+	color: var(--muted);
+	font-size: .9rem;
+	min-height: 72px;
+}
+
+/* Precio: borde divisor, color de marca, margen superior y relleno sobre la linea. */
+.price {
+	border-top: 1px solid var(--line);
+	color: var(--rose-dark);
+	font-size: .86rem;
+	font-weight: 700;
+	margin-top: 23px;
+	padding-top: 16px;
+}
+
+/* Fondo base de la seccion de trabajos/portfolio. */
+.portfolio {
+	background: var(--cream);
+}
+
+/*
+ * La galeria usa tres columnas con minmax(0,1fr).
+ * minmax define un minimo y un maximo; cero permite que la columna se encoja
+ * debajo del ancho automatico del contenido, y 1fr reparte el espacio restante.
+ */
+.gallery-grid {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/*
+ * Boton/tarjeta de imagen. aspect-ratio:4 / 5 conserva una proporcion vertical.
+ * cursor:zoom-in indica visualmente que la imagen puede ampliarse.
+ * overflow:hidden recorta el contenido; position:relative ubica su icono superpuesto.
+ */
+.gallery-item {
+	aspect-ratio: 4 / 5;
+	background: var(--blush);
+	border: 0;
+	cursor: zoom-in;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+}
+
+/* La imagen llena el boton. object-fit:cover recorta sobrantes sin deformar la foto. */
+.gallery-item img {
+	height: 100%;
+	object-fit: cover;
+	transition: transform .35s;
+	width: 100%;
+}
+
+/*
+ * La coma agrupa los estados hover y focus-visible: raton encima o foco visible
+ * por teclado. scale(1.04) agranda la imagen un 4% sin cambiar el tamano de la caja.
+ */
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
+	transform: scale(1.04);
+}
+
+/*
+ * span dentro de la foto es el circulo con el signo +.
+ * opacity:0 lo oculta inicialmente; position:absolute lo ubica sobre la foto.
+ * transition suaviza su aparicion. El fondo rgba combina color y transparencia.
+ */
+.gallery-item span {
+	align-items: center;
+	background: rgba(44,36,38,.76);
+	border-radius: 50%;
+	color: white;
+	display: flex;
+	font-size: 1.6rem;
+	height: 42px;
+	justify-content: center;
+	opacity: 0;
+	position: absolute;
+	right: 14px;
+	top: 14px;
+	transition: opacity .2s;
+	width: 42px;
+}
+
+/* Hace visible el signo + cuando se pasa el puntero o se enfoca con teclado. */
+.gallery-item:hover span,
+.gallery-item:focus-visible span {
+	opacity: 1;
+}
+
+/*
+ * dialog selecciona la ventana modal nativa usada para ampliar la imagen.
+ * margin:auto la centra; max-width/max-height limitan su tamano a ventana y viewport.
+ * overflow:visible deja salir controles posicionados sobre sus bordes.
+ * width:max-content adapta la caja al contenido, respetando el maximo establecido.
+ */
+.gallery-dialog {
+	background: var(--cream);
+	border: 0;
+	border-radius: 4px;
+	color: var(--ink);
+	margin: auto;
+	max-height: 94vh;
+	max-width: min(1000px, 94vw);
+	overflow: visible;
+	padding: 18px 64px 12px;
+	position: relative;
+	width: max-content;
+}
+
+/* ::backdrop es la capa que el navegador dibuja detras de un dialog abierto. */
+.gallery-dialog::backdrop {
+	background: rgba(31,25,27,.88);
+}
+
+/* Imagen del dialog: contain muestra la imagen completa sin recortar ni deformar. */
+.gallery-dialog-image {
+	background: #221e1f;
+	display: block;
+	height: min(76vh, 760px);
+	max-width: min(760px, 70vw);
+	object-fit: contain;
+	width: auto;
+}
+
+/*
+ * Selector agrupado para los botones de cerrar, anterior y siguiente.
+ * Una sola lista de selectores aplica las mismas reglas a los tres controles.
+ * position:absolute los ubica respecto del dialog; border-radius:50% los hace redondos.
+ */
+.gallery-close,
+.gallery-previous,
+.gallery-next {
+	align-items: center;
+	background: var(--white);
+	border: 0;
+	border-radius: 50%;
+	color: var(--ink);
+	cursor: pointer;
+	display: flex;
+	height: 42px;
+	justify-content: center;
+	position: absolute;
+	width: 42px;
+}
+
+/* Boton cerrar ubicado en la esquina superior derecha del dialog. */
+.gallery-close {
+	font-size: 1.6rem;
+	right: 12px;
+	top: 12px;
+}
+
+/* Controles anterior/siguiente centrados verticalmente. */
+.gallery-previous,
+.gallery-next {
+	font-size: 1.25rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+/* El boton anterior se acerca al borde izquierdo. */
+.gallery-previous {
+	left: 10px;
+}
+
+/* El boton siguiente se acerca al borde derecho. */
+.gallery-next {
+	right: 10px;
+}
+
+/* Agrupa estados hover de los controles modales y aclara el fondo al interactuar. */
+.gallery-close:hover,
+.gallery-previous:hover,
+.gallery-next:hover {
+	background: var(--blush);
+}
+
+/* Contador de foto: texto secundario, espacio arriba y centrado horizontal. */
+.gallery-count {
+	color: var(--muted);
+	font-size: .8rem;
+	padding-top: 8px;
+	text-align: center;
+}
+
+/*
+ * .about-grid presenta la seccion sobre Malu en dos columnas.
+ * .8fr y 1.2fr son proporciones: la primera columna ocupa 0.8 partes y la segunda 1.2.
+ */
+.about-grid {
+	align-items: center;
+	display: grid;
+	gap: 90px;
+	grid-template-columns: .8fr 1.2fr;
+}
+
+/* Sello circular de experiencia. margin:auto lo centra dentro de su columna. */
+.about-stamp {
+	align-items: center;
+	background: var(--rose);
+	border-radius: 50%;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	height: 260px;
+	justify-content: center;
+	margin: auto;
+	transform: rotate(-8deg);
+	width: 260px;
+}
+
+/* Numero dentro del sello, en fuente serif; line-height:1 quita aire vertical extra. */
+.about-stamp strong {
+	font-family: 'Playfair Display', serif;
+	font-size: 4.2rem;
+	line-height: 1;
+}
+
+/* Texto secundario del sello: pequeno, separado entre letras y en mayusculas. */
+.about-stamp span {
+	font-size: .7rem;
+	letter-spacing: .15em;
+	text-transform: uppercase;
+}
+
+/* Los parrafos de la presentacion usan color secundario y margen vertical. */
+.about-copy p {
+	color: var(--muted);
+	margin: 23px 0;
+	max-width: 510px;
+}
+
+/* Estadisticas de la marca distribuidas horizontalmente con separacion. */
+.details {
+	display: flex;
+	gap: 38px;
+	margin-top: 28px;
+}
+
+/* Numeros de las estadisticas como bloque para que la etiqueta baje debajo. */
+.details strong {
+	display: block;
+	font-family: 'Playfair Display', serif;
+	font-size: 1.3rem;
+}
+
+/* Etiquetas de estadisticas en texto pequeno y color secundario. */
+.details span {
+	color: var(--muted);
+	font-size: .75rem;
+}
+
+/*
+ * Seccion de contacto: fondo oscuro y texto blanco heredable.
+ * No se aplica text-align aqui porque el mapa y el texto forman columnas distintas.
+ */
+.booking {
+	background: var(--ink);
+	color: white;
+}
+
+/* Mapa y contenido en dos columnas; 1.1fr y .9fr dan un poco mas de espacio al mapa. */
+.booking-grid {
+	align-items: center;
+	display: grid;
+	gap: 56px;
+	grid-template-columns: 1.1fr .9fr;
+}
+
+/* Mapa incrustado: sin borde, altura fija, ancho completo de su columna. */
+.booking-map {
+	border: 0;
+	border-radius: 4px;
+	display: block;
+	height: 380px;
+	width: 100%;
+}
+
+/* Centra el texto de contacto y sus enlaces dentro de la columna derecha. */
+.booking-copy {
+	text-align: center;
+}
+
+/* Asegura titulo blanco aunque otras reglas generales den otro color a h2. */
+.booking h2 {
+	color: white;
+}
+
+/* Parrafos en contacto: color claro, margen y ancho maximo para lectura. */
+.booking p {
+	color: #d6c6c7;
+	margin: 18px auto 30px;
+	max-width: 450px;
+}
+
+/* El boton de esta seccion usa una variante rosa mas clara. */
+.booking .button {
+	background: #d98b91;
+}
+
+/* Estado de puntero del boton de contacto. */
+.booking .button:hover {
+	background: #e7a5a9;
+}
+
+/*
+ * Enlaces sociales y de correo con aspecto comun: borde inferior, color claro,
+ * bloque propio, tamano de texto y margen superior.
+ * width:fit-content hace que el borde mida lo mismo que el texto, no todo el ancho.
+ */
+.contact-instagram,
+.contact-email {
+	border-bottom: 1px solid #d98b91;
+	color: #f0b7ba;
+	display: block;
+	font-size: .9rem;
+	font-weight: 700;
+	margin: 22px auto 0;
+	padding-bottom: 3px;
+	width: fit-content;
+}
+
+/* Al pasar el puntero, el enlace de contacto cambia a blanco. */
+.contact-instagram:hover,
+.contact-email:hover {
+	color: white;
+}
+
+/* En escritorio se muestra el enlace Gmail; la variante mailto queda oculta. */
+.contact-email-mobile,
+.footer-email-mobile {
+	display: none;
+}
+
+/* Pie: color secundario, texto pequeno y relleno arriba/abajo. */
+footer {
+	color: var(--muted);
+	font-size: .78rem;
+	padding: 26px 0;
+}
+
+/* Los elementos del pie se acomodan en fila y se reparten horizontalmente. */
+.footer-row {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+/* Enlace de Instagram del pie: color de marca y peso fuerte. */
+.footer-social {
+	color: var(--rose-dark);
+	font-weight: 700;
+}
+
+/* El color cambia cuando el puntero esta sobre el Instagram del pie. */
+.footer-social:hover {
+	color: var(--rose);
+}
+
+/* Color normal del enlace de correo del pie. */
+.footer-email {
+	color: var(--rose-dark);
+}
+
+/* Estado hover del correo del pie. */
+.footer-email:hover {
+	color: var(--rose);
+}
+
+/* Enlace para volver al inicio: borde inferior que simula un subrayado. */
+.back-to-top {
+	border-bottom: 1px solid var(--rose);
+	color: var(--rose-dark);
+	font-weight: 700;
+	padding-bottom: 2px;
+}
+
+/* Color alternativo al pasar el puntero por "Volver arriba". */
+.back-to-top:hover {
+	color: var(--rose);
+}
+
+/*
+ * DISENO ADAPTABLE PARA PANTALLAS DE HASTA 760px
+ * @media es una regla-at que aplica su bloque solo si se cumple una condicion.
+ * (max-width:760px) incluye ventanas de 760px o menos, tipicas de telefonos y
+ * algunas tablets. Al superar 760px, se usan las reglas de escritorio anteriores.
+ */
+@media (max-width: 760px) {
+	/*
+	 * scroll-padding-top reserva un margen al navegar a un id de la pagina.
+	 * Evita que una seccion quede oculta detras de la cabecera sticky.
+	 */
+	html {
+		scroll-padding-top: 142px;
+	}
+
+	/*
+	 * En telefono, header cambia de flex a grid para formar dos filas.
+	 * align-content:start alinea las filas al comienzo del contenedor.
+	 * background opaco permite que el contenido que pasa por detras no se vea.
+	 * box-shadow separa visualmente la barra del contenido al desplazarse.
+	 * grid-template-columns crea una columna flexible y otra del ancho necesario.
+	 * grid-template-rows fija la altura de la fila de marca y de navegacion.
+	 * position:sticky conserva su lugar normal hasta tocar el borde superior;
+	 * top:0 es la distancia a ese borde. z-index:20 la superpone al contenido.
+	 * padding usa cuatro valores: arriba, derecha, abajo, izquierda.
+	 */
+	header {
+		align-content: start;
+		background: var(--cream);
+		box-shadow: 0 5px 14px rgba(44,36,38,.08);
+		display: grid;
+		gap: 0;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-rows: 96px 38px;
+		height: auto;
+		padding: 0 16px 4px;
+		position: sticky;
+		top: 0;
+		z-index: 20;
+	}
+
+	/* Ajusta la caja tipografica de marca a la primera fila movil. */
+	.logo-wordmark {
+		height: 82px;
+		padding-top: 8px;
+	}
+
+	/* Reduce el nombre principal en pantallas angostas. */
+	.logo-main {
+		font-size: 3.2rem;
+	}
+
+	/* Reduce proporcionalmente la firma secundaria. */
+	.logo-by {
+		font-size: 2.25rem;
+	}
+
+	/*
+	 * La navegacion ocupa toda la segunda fila: grid-column 1 / -1 significa
+	 * desde la primera linea de columna hasta la ultima linea disponible.
+	 * overflow-x:auto permite desplazamiento horizontal si los enlaces no entran.
+	 * scrollbar-width:none oculta la barra visual en navegadores compatibles,
+	 * pero mantiene el desplazamiento tactil.
+	 */
+	header nav {
+		align-items: center;
+		display: flex;
+		gap: clamp(14px, 4vw, 22px);
+		grid-column: 1 / -1;
+		grid-row: 2;
+		justify-content: space-between;
+		overflow-x: auto;
+		padding-bottom: 4px;
+		scrollbar-width: none;
+		width: 100%;
+	}
+
+	/* Pseudoelemento propio de WebKit/Blink para la barra de desplazamiento. */
+	header nav::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Impide que cada enlace se encoja o se parta en dos lineas. */
+	header nav a {
+		flex: 0 0 auto;
+		font-size: .8rem;
+	}
+
+	/* Coloca el enlace de marca en primera columna y primera fila de la cuadricula. */
+	.logo {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	/* Coloca el boton de reserva en la segunda columna y primera fila. */
+	header > .button {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	/* Compacta visualmente el boton de reserva para dar espacio a la marca. */
+	header > .button {
+		font-size: .68rem;
+		padding: 12px 13px;
+	}
+
+	/* La portada pasa de dos columnas a una y reduce el espacio entre bloques. */
+	.hero {
+		gap: 20px;
+		grid-template-columns: 1fr;
+		min-height: auto;
+		padding: 55px 0 70px;
+	}
+
+	/* Reduce el titulo de portada para que se ajuste al ancho de un telefono. */
+	h1 {
+		font-size: 3.6rem;
+	}
+
+	/* Conserva un alto suficiente para la ilustracion en celular. */
+	.hero-art {
+		min-height: 390px;
+	}
+
+	/* Ajusta las dos piezas principales de la ilustracion en pantallas angostas. */
+	.art-back,
+	.art-front {
+		height: 360px;
+		right: 10%;
+		width: 75%;
+	}
+
+	/* Reubica la nota superpuesta en la ilustracion movil. */
+	.art-note {
+		bottom: 15px;
+		left: 2%;
+	}
+
+	/* Reduce separacion vertical de todas las secciones en telefono. */
+	section {
+		padding: 70px 0;
+	}
+
+	/* El encabezado de seccion deja de ser una fila y pasa a columna. */
+	.section-head {
+		align-items: start;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	/* Servicios y presentacion se muestran en una columna en celular. */
+	.service-grid,
+	.about-grid {
+		grid-template-columns: 1fr;
+	}
+
+	/* Reduce el espacio entre sello y texto en la seccion sobre Malu. */
+	.about-grid {
+		gap: 48px;
+	}
+
+	/* La galeria usa dos columnas en vez de tres. */
+	.gallery-grid {
+		gap: 10px;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	/* Reduce el ancho del modal y reserva espacio para sus botones laterales. */
+	.gallery-dialog {
+		max-width: 96vw;
+		padding: 54px 42px 10px;
+	}
+
+	/* Limita la imagen modal al espacio disponible en el viewport movil. */
+	.gallery-dialog-image {
+		height: min(72vh, 650px);
+		max-width: calc(96vw - 84px);
+	}
+
+	/* Acerca el boton de cierre al borde de la ventana movil. */
+	.gallery-close {
+		right: 4px;
+		top: 4px;
+	}
+
+	/* Acerca el control de foto anterior al borde izquierdo. */
+	.gallery-previous {
+		left: 2px;
+	}
+
+	/* Acerca el control de foto siguiente al borde derecho. */
+	.gallery-next {
+		right: 2px;
+	}
+
+	/* Mapa y contenido de contacto forman una sola columna en telefono. */
+	.booking-grid {
+		gap: 32px;
+		grid-template-columns: 1fr;
+	}
+
+	/* Reduce la altura del mapa para que no ocupe casi toda la pantalla. */
+	.booking-map {
+		height: 280px;
+	}
+
+	/* En movil se ocultan las versiones Gmail de escritorio. */
+	.contact-email-desktop,
+	.footer-email-desktop {
+		display: none;
+	}
+
+	/* Se muestra el enlace mailto, que delega en la app de correo del telefono. */
+	.contact-email-mobile {
+		display: block;
+	}
+
+	/* La variante mailto del pie conserva el flujo de enlaces en linea. */
+	.footer-email-mobile {
+		display: inline;
+	}
+
+	/* Reduce el sello circular para adaptarlo al ancho disponible. */
+	.about-stamp {
+		height: 210px;
+		width: 210px;
+	}
+
+	/* Reduce el numero dentro del sello movil. */
+	.about-stamp strong {
+		font-size: 3.5rem;
+	}
+
+	/* El pie pasa de fila horizontal a lista vertical, comoda para tocar. */
+	.footer-row {
+		align-items: start;
+		flex-direction: column;
+		gap: 10px;
+	}
+}
