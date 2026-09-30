@@ -5,7 +5,35 @@ if (currentYear) {
 }
 
 const galleryItems = [...document.querySelectorAll('.gallery-item')];
+const galleryTrack = document.querySelector('.gallery-grid');
 const galleryDialog = document.querySelector('.gallery-dialog');
+
+if (galleryTrack && galleryItems.length) {
+    const previousButton = document.querySelector('.gallery-scroll-previous');
+    const nextButton = document.querySelector('.gallery-scroll-next');
+    const position = document.querySelector('.gallery-position');
+
+    const getStep = () => {
+        const itemWidth = galleryItems[0].getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(galleryTrack).gap) || 0;
+        return itemWidth + gap;
+    };
+
+    const updateControls = () => {
+        const maxScroll = galleryTrack.scrollWidth - galleryTrack.clientWidth;
+        const activeIndex = Math.min(galleryItems.length - 1, Math.round(galleryTrack.scrollLeft / getStep()));
+        previousButton.disabled = galleryTrack.scrollLeft <= 1;
+        nextButton.disabled = galleryTrack.scrollLeft >= maxScroll - 1;
+        position.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${galleryItems.length}`;
+    };
+
+    previousButton.addEventListener('click', () => galleryTrack.scrollBy({ left: -getStep(), behavior: 'smooth' }));
+    nextButton.addEventListener('click', () => galleryTrack.scrollBy({ left: getStep(), behavior: 'smooth' }));
+    galleryTrack.addEventListener('scroll', updateControls, { passive: true });
+    window.addEventListener('resize', updateControls);
+    galleryTrack.scrollLeft = 0;
+    updateControls();
+}
 
 if (galleryDialog && galleryItems.length) {
     const galleryImage = galleryDialog.querySelector('.gallery-dialog-image');
