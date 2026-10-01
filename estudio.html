@@ -90,6 +90,7 @@
 		<section class="hero" id="inicio">
 			<!-- El video decorativo ocupa el fondo; el contenido permanece por delante. -->
 			<video class="hero-background-video" autoplay loop muted playsinline preload="metadata" poster="assets/nuevo1.jpg" aria-hidden="true" tabindex="-1">
+				<source src="assets/videopresentacioncelu.mp4" type="video/mp4" media="(max-width: 760px)">
 				<source src="assets/videopresentacion.mp4" type="video/mp4">
 			</video>
 			<div class="hero-content container">
@@ -122,23 +123,29 @@
 					<p>Cada diseño tiene su propio detalle. Encontrá el que te inspire para tu próxima visita.</p>
 					<!-- Texto descriptivo que acompana al titulo. -->
 				</div>
+				<div class="gallery-filters" role="group" aria-label="Filtrar trabajos">
+					<button class="gallery-filter" type="button" data-category="all" aria-pressed="true">Todos</button>
+					<button class="gallery-filter" type="button" data-category="capping" aria-pressed="false">Capping</button>
+					<button class="gallery-filter" type="button" data-category="soft" aria-pressed="false">Soft</button>
+					<button class="gallery-filter" type="button" data-category="semipermanentes" aria-pressed="false">Semipermanentes</button>
+				</div>
 				<div class="gallery-carousel">
 					<!-- gallery-grid funciona como una region horizontal con ajuste a cada foto. -->
 					<div class="gallery-grid" role="region" aria-roledescription="carrusel" aria-label="Trabajos de uñas de Made by Malu" tabindex="0">
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 1"><img src="assets/nuevo1.jpg" alt="Trabajo de uñas de Made by Malu 1" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 2"><img src="assets/nuevo2.jpg" alt="Trabajo de uñas de Made by Malu 2" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 3"><img src="assets/nuevo3.jpg" alt="Trabajo de uñas de Made by Malu 3" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 4"><img src="assets/nuevo4.jpg" alt="Trabajo de uñas de Made by Malu 4" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 5"><img src="assets/nuevo5.jpg" alt="Trabajo de uñas de Made by Malu 5" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 6"><img src="assets/nuevo6.jpg" alt="Trabajo de uñas de Made by Malu 6" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 7"><img src="assets/nuevo7.jpg" alt="Trabajo de uñas de Made by Malu 7" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 8"><img src="assets/nuevo8.jpg" alt="Trabajo de uñas de Made by Malu 8" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 9"><img src="assets/nuevo9.jpg" alt="Trabajo de uñas de Made by Malu 9" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 10"><img src="assets/nuevo10.jpg" alt="Trabajo de uñas de Made by Malu 10" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 11"><img src="assets/nuevo11.jpg" alt="Trabajo de uñas de Made by Malu 11" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 12"><img src="assets/nuevo12.jpg" alt="Trabajo de uñas de Made by Malu 12" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 13"><img src="assets/nuevo13.jpg" alt="Trabajo de uñas de Made by Malu 13" loading="lazy"><span aria-hidden="true">+</span></button>
-						<button class="gallery-item" type="button" aria-label="Ampliar trabajo de uñas 14"><img src="assets/nuevo14.jpg" alt="Trabajo de uñas de Made by Malu 14" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="capping" type="button" aria-label="Ampliar trabajo Capping 1"><img src="assets/capping1.jpg" alt="Trabajo de uñas Capping 1" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="capping" type="button" aria-label="Ampliar trabajo Capping 2"><img src="assets/capping2.jpg" alt="Trabajo de uñas Capping 2" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="capping" type="button" aria-label="Ampliar trabajo Capping 3"><img src="assets/capping3.jpg" alt="Trabajo de uñas Capping 3" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="capping" type="button" aria-label="Ampliar trabajo Capping 4"><img src="assets/capping4.jpg" alt="Trabajo de uñas Capping 4" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="capping" type="button" aria-label="Ampliar trabajo Capping 5"><img src="assets/capping5.jpg" alt="Trabajo de uñas Capping 5" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="capping" type="button" aria-label="Ampliar trabajo Capping 6"><img src="assets/capping6.jpg" alt="Trabajo de uñas Capping 6" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="soft" type="button" aria-label="Ampliar trabajo Soft 1"><img src="assets/soft1.jpg" alt="Trabajo de uñas Soft 1" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="soft" type="button" aria-label="Ampliar trabajo Soft 2"><img src="assets/soft2.jpg" alt="Trabajo de uñas Soft 2" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="soft" type="button" aria-label="Ampliar trabajo Soft 3"><img src="assets/soft3.jpg" alt="Trabajo de uñas Soft 3" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="soft" type="button" aria-label="Ampliar trabajo Soft 4"><img src="assets/soft4.jpg" alt="Trabajo de uñas Soft 4" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="semipermanentes" type="button" aria-label="Ampliar trabajo Semipermanentes 1"><img src="assets/semipermanentes1.jpg" alt="Trabajo de uñas Semipermanentes 1" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="semipermanentes" type="button" aria-label="Ampliar trabajo Semipermanentes 2"><img src="assets/semipermanentes2.jpg" alt="Trabajo de uñas Semipermanentes 2" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="semipermanentes" type="button" aria-label="Ampliar trabajo Semipermanentes 3"><img src="assets/semipermanentes3.jpg" alt="Trabajo de uñas Semipermanentes 3" loading="lazy"><span aria-hidden="true">+</span></button>
+						<button class="gallery-item" data-category="semipermanentes" type="button" aria-label="Ampliar trabajo Semipermanentes 4"><img src="assets/semipermanentes4.jpg" alt="Trabajo de uñas Semipermanentes 4" loading="lazy"><span aria-hidden="true">+</span></button>
 					</div>
 					<div class="gallery-controls" role="group" aria-label="Controles del carrusel">
 						<button class="gallery-scroll-button gallery-scroll-previous" type="button" aria-label="Foto anterior" disabled>&#8592;</button>
@@ -292,6 +299,9 @@
 
 	<!-- GALERIA AMPLIADA: dialog es una ventana modal nativa del navegador. -->
 	<dialog class="gallery-dialog" aria-label="Vista ampliada de trabajos">
+		<video class="gallery-dialog-background" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+			<source src="assets/videopresentacioncelu.mp4" type="video/mp4">
+		</video>
 		<!-- aria-label describe la ventana para tecnologias de asistencia. -->
 		<button class="gallery-close" type="button" aria-label="Cerrar">&times;</button>
 		<!-- type button evita envio de formulario; times es la entidad del simbolo ×. -->
