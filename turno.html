@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elegí tus servicios, prepará un presupuesto y enviá tu solicitud de turno a Made by Malu.">
+    <title>Turnos y presupuestos | Made by Malu</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/turno.css">
+</head>
+<body class="booking-page">
+    <header class="container request-header">
+        <a class="logo" href="index.html#inicio" aria-label="Made by Malu, inicio">
+            <span class="logo-wordmark"><span class="logo-main">Made</span><span class="logo-by">by Malu</span></span>
+        </a>
+        <nav aria-label="Navegación principal">
+            <a href="index.html#trabajos">Trabajos</a>
+            <a href="index.html#servicios">Servicios</a>
+            <a href="index.html#nosotros">Sobre Malu</a>
+            <a href="index.html#contacto">Contacto</a>
+        </nav>
+        <a class="button" href="#resumen">Mi solicitud</a>
+    </header>
+
+    <main>
+        <section class="request-intro">
+            <div class="container">
+                <p class="eyebrow">Turnos y presupuestos</p>
+                <h1>Armemos tu próximo servicio.</h1>
+                <p>Elegí uno o más servicios y revisá el estimado antes de enviar tu solicitud.</p>
+            </div>
+        </section>
+
+        <div class="container booking-layout">
+            <section class="booking-options" aria-labelledby="options-title">
+                <div class="booking-section-heading">
+                    <div>
+                        <p class="eyebrow">Servicios disponibles</p>
+                        <h2 id="options-title">¿Qué te gustaría hacerte?</h2>
+                    </div>
+                    <p>Los valores “desde” pueden variar según el estado de las uñas.</p>
+                </div>
+
+                <div class="booking-service-grid">
+                    <article class="booking-service" data-service-id="semipermanente" data-service-name="Semipermanente" data-price="17000" data-estimate="true">
+                        <button class="booking-photo-open" type="button" data-photo-service="semipermanente" aria-label="Ver fotos de Semipermanente"><img src="assets/semipermanentes1.jpg" alt="Diseño de uñas semipermanentes" loading="lazy"><span>Ver fotos</span></button>
+                        <div class="booking-service-content">
+                            <div class="booking-service-heading"><h3>Semipermanente</h3><span>Desde $17.000</span></div>
+                            <p>Esmaltado duradero para lucir uñas prolijas y con color.</p>
+                            <button class="service-add" type="button" aria-pressed="false">Agregar</button>
+                        </div>
+                    </article>
+
+                    <article class="booking-service" data-service-id="capping" data-service-name="Capping" data-price="19000" data-estimate="true">
+                        <button class="booking-photo-open" type="button" data-photo-service="capping" aria-label="Ver fotos de Capping"><img src="assets/capping1.jpg" alt="Diseño de uñas con capping" loading="lazy"><span>Ver fotos</span></button>
+                        <div class="booking-service-content">
+                            <div class="booking-service-heading"><h3>Capping</h3><span>Desde $19.000</span></div>
+                            <p>Refuerzo de la uña natural con diseños a elección.</p>
+                            <button class="service-add" type="button" aria-pressed="false">Agregar</button>
+                        </div>
+                    </article>
+
+                    <article class="booking-service" data-service-id="soft-gel" data-service-name="Soft gel" data-price="21000" data-estimate="true">
+                        <button class="booking-photo-open" type="button" data-photo-service="soft-gel" aria-label="Ver fotos de Soft gel"><img src="assets/soft1.jpg" alt="Diseño de uñas con soft gel" loading="lazy"><span>Ver fotos</span></button>
+                        <div class="booking-service-content">
+                            <div class="booking-service-heading"><h3>Soft gel</h3><span>Desde $21.000</span></div>
+                            <p>Extensión de uñas en el largo y estilo que elijas.</p>
+                            <button class="service-add" type="button" aria-pressed="false">Agregar</button>
+                        </div>
+                    </article>
+
+                    <article class="booking-service" data-service-id="press-on" data-service-name="Press On" data-price="10000" data-custom-price="12000" data-estimate="false">
+                        <button class="booking-photo-open" type="button" data-photo-service="press-on" aria-label="Ver fotos de referencia para Press On"><img src="assets/nuevo1.jpg" alt="Diseño de uñas de referencia para Press On" loading="lazy"><span>Ver fotos</span></button>
+                        <div class="booking-service-content">
+                            <div class="booking-service-heading"><h3>Press On Nails</h3><span class="press-on-price">Estándar $10.000</span></div>
+                            <p>Sets reutilizables en talles S, M y L o con diseño personalizado.</p>
+                            <div class="press-on-options">
+                                <label>Talle
+                                    <select class="press-on-size" aria-label="Talle de Press On">
+                                        <option value="S">S</option>
+                                        <option value="M" selected>M</option>
+                                        <option value="L">L</option>
+                                    </select>
+                                </label>
+                                <label class="press-on-custom"><input class="press-on-custom-input" type="checkbox"> Personalizado</label>
+                            </div>
+                            <p class="reference-note">Foto de referencia</p>
+                            <button class="service-add" type="button" aria-pressed="false">Agregar</button>
+                        </div>
+                    </article>
+                </div>
+
+                <fieldset class="booking-extras">
+                    <legend>Adicionales</legend>
+                    <label><input type="checkbox" data-addon="repair" data-addon-name="Arreglo de uña" data-addon-price="3000"> Arreglo de uña <strong>+$3.000</strong></label>
+                    <label><input type="checkbox" data-addon="reconstruction" data-addon-name="Reconstrucción completa" data-addon-price="4000"> Reconstrucción completa <strong>+$4.000</strong></label>
+                    <p>Los diseños no tienen costo extra.</p>
+                </fieldset>
+            </section>
+
+            <aside class="booking-summary" id="resumen" aria-labelledby="summary-title">
+                <p class="eyebrow">Tu selección</p>
+                <h2 id="summary-title">Resumen</h2>
+                <p class="summary-count" id="summary-count" aria-live="polite">0 servicios</p>
+                <p class="summary-empty" id="summary-empty">Todavía no agregaste servicios.</p>
+                <ul class="summary-items" id="summary-items" aria-live="polite"></ul>
+                <div class="summary-total"><span>Estimado</span><strong id="summary-total">$0</strong></div>
+                <p class="summary-note">La fecha y el presupuesto se confirman por WhatsApp. Esta solicitud no reserva un turno automáticamente.</p>
+                <button class="button summary-continue" id="continue-request" type="button" disabled>Continuar</button>
+                <a class="summary-back" href="index.html#servicios">Volver a servicios</a>
+            </aside>
+        </div>
+
+        <dialog class="service-gallery-dialog" id="service-gallery-dialog" aria-labelledby="service-gallery-title">
+            <video class="service-gallery-background gallery-dialog-background" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+                <source src="assets/videopresentacioncelu.mp4" type="video/mp4">
+            </video>
+            <button class="service-gallery-close" id="close-service-gallery" type="button" aria-label="Cerrar fotos">&times;</button>
+            <p class="eyebrow">Galería del servicio</p>
+            <h2 id="service-gallery-title"></h2>
+            <div class="service-gallery-viewer">
+                <button class="service-gallery-previous" id="previous-service-photo" type="button" aria-label="Foto anterior">&#8592;</button>
+                <img class="service-gallery-image" id="service-gallery-image" src="" alt="">
+                <button class="service-gallery-next" id="next-service-photo" type="button" aria-label="Foto siguiente">&#8594;</button>
+            </div>
+            <p class="service-gallery-count" id="service-gallery-count" aria-live="polite"></p>
+        </dialog>
+
+        <dialog class="request-dialog" id="request-dialog" aria-labelledby="request-dialog-title">
+            <button class="request-dialog-close" id="close-request" type="button" aria-label="Cerrar">&times;</button>
+            <form id="request-form" class="request-form">
+                <p class="eyebrow">Último paso</p>
+                <h2 id="request-dialog-title">Completemos tu solicitud.</h2>
+                <p>Dejanos tu nombre y una fecha preferida. Malu confirmará disponibilidad por WhatsApp.</p>
+                <label for="client-name">Tu nombre</label>
+                <input id="client-name" name="name" type="text" autocomplete="name" maxlength="70" required>
+                <label for="preferred-date">Fecha que preferís</label>
+                <input id="preferred-date" name="date" type="date" required>
+                <label for="request-note">Nota para Malu <span>(opcional)</span></label>
+                <textarea id="request-note" name="note" rows="3" maxlength="300" placeholder="Contanos algún detalle de tu pedido"></textarea>
+                <p class="request-error" id="request-error" role="alert"></p>
+                <div class="request-actions">
+                    <button class="request-back" id="back-to-summary" type="button">Volver</button>
+                    <button class="button" type="submit">Enviar por WhatsApp</button>
+                </div>
+            </form>
+        </dialog>
+    </main>
+
+    <footer class="request-footer">
+        <div class="container"><span>© <span data-current-year>2026</span> Made by Malu</span><a href="index.html#inicio">Volver al sitio ↑</a></div>
+    </footer>
+
+    <script src="js/turno.js"></script>
+</body>
+</html>
