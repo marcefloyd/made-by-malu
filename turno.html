@@ -69,18 +69,22 @@
                         </div>
                     </article>
 
-                    <article class="booking-service" data-service-id="press-on" data-service-name="Press On" data-price="10000" data-custom-price="12000" data-estimate="false">
-                        <button class="booking-photo-open" type="button" data-photo-service="press-on" aria-label="Ver fotos de referencia para Press On"><img src="assets/nuevo1.jpg" alt="Diseño de uñas de referencia para Press On" loading="lazy"><span>Ver fotos</span></button>
+                    <article class="booking-service" data-service-id="press-on" data-service-name="Press On" data-price="10000" data-custom-price="12000" data-promo-price="16000" data-estimate="false">
+                        <button class="booking-photo-open" type="button" data-photo-service="press-on" aria-label="Ver fotos de referencia para Press On"><img src="assets/Press%20on%201.jpg" alt="Set de uñas Press On color rosa con diseños" loading="lazy"><span>Ver fotos</span></button>
                         <div class="booking-service-content">
-                            <div class="booking-service-heading"><h3>Press On Nails</h3><span class="press-on-price">Estándar $10.000</span></div>
+                            <div class="booking-service-heading"><h3>Press On Nails</h3><span class="press-on-price">Estándar $10.000 c/u</span></div>
                             <p>Sets reutilizables en talles S, M y L o con diseño personalizado.</p>
+                            <p class="press-on-promo promo-badge">Promo: 2 sets estándar por $16.000</p>
                             <div class="press-on-options">
-                                <label>Talle
+                                <label>Talle de ambos sets
                                     <select class="press-on-size" aria-label="Talle de Press On">
                                         <option value="S">S</option>
                                         <option value="M" selected>M</option>
                                         <option value="L">L</option>
                                     </select>
+                                </label>
+                                <label>Cantidad de sets
+                                    <input class="press-on-quantity-input" type="number" min="1" max="2" step="1" value="1" aria-label="Cantidad de sets Press On">
                                 </label>
                                 <label class="press-on-custom"><input class="press-on-custom-input" type="checkbox"> Personalizado</label>
                             </div>
@@ -131,11 +135,13 @@
             <form id="request-form" class="request-form">
                 <p class="eyebrow">Último paso</p>
                 <h2 id="request-dialog-title">Completemos tu solicitud.</h2>
-                <p>Dejanos tu nombre y una fecha preferida. Malu confirmará disponibilidad por WhatsApp.</p>
+                <p>Dejanos tu nombre, una fecha y un horario aproximados. Malu confirmará disponibilidad por WhatsApp.</p>
                 <label for="client-name">Tu nombre</label>
                 <input id="client-name" name="name" type="text" autocomplete="name" maxlength="70" required>
                 <label for="preferred-date">Fecha que preferís</label>
                 <input id="preferred-date" name="date" type="date" required>
+                <label for="preferred-time">Horario aproximado <span>(sujeto a confirmación)</span></label>
+                <input id="preferred-time" name="time" type="time" required>
                 <label for="request-note">Nota para Malu <span>(opcional)</span></label>
                 <textarea id="request-note" name="note" rows="3" maxlength="300" placeholder="Contanos algún detalle de tu pedido"></textarea>
                 <p class="request-error" id="request-error" role="alert"></p>

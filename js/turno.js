@@ -11,6 +11,7 @@ const requestDialog = document.querySelector('#request-dialog');
 const requestForm = document.querySelector('#request-form');
 const requestError = document.querySelector('#request-error');
 const preferredDate = document.querySelector('#preferred-date');
+const preferredTime = document.querySelector('#preferred-time');
 const serviceGalleryDialog = document.querySelector('#service-gallery-dialog');
 const serviceGalleryImage = document.querySelector('#service-gallery-image');
 const serviceGalleryTitle = document.querySelector('#service-gallery-title');
@@ -22,7 +23,7 @@ const servicePhotoSets = {
     semipermanente: { title: 'Semipermanente', photos: Array.from({ length: 4 }, (_, index) => `assets/semipermanentes${index + 1}.jpg`) },
     capping: { title: 'Capping', photos: Array.from({ length: 6 }, (_, index) => `assets/capping${index + 1}.jpg`) },
     'soft-gel': { title: 'Soft gel', photos: Array.from({ length: 4 }, (_, index) => `assets/soft${index + 1}.jpg`) },
-    'press-on': { title: 'Press On · fotos de referencia', photos: Array.from({ length: 14 }, (_, index) => `assets/nuevo${index + 1}.jpg`) }
+    'press-on': { title: 'Press On · fotos de referencia', photos: Array.from({ length: 6 }, (_, index) => `assets/Press%20on%20${index + 1}.jpg`) }
 };
 let activePhotoSet = [];
 let activePhotoIndex = 0;
@@ -62,12 +63,16 @@ function getServiceData(card) {
     const pressOn = card.dataset.serviceId === 'press-on';
     const personalized = pressOn && card.querySelector('.press-on-custom-input').checked;
     const size = pressOn ? card.querySelector('.press-on-size').value : '';
-    const price = personalized ? Number(card.dataset.customPrice) : Number(card.dataset.price);
+    const quantity = pressOn ? Number(card.querySelector('.press-on-quantity-input').value) : 1;
+    const unitPrice = personalized ? Number(card.dataset.customPrice) : Number(card.dataset.price);
+    const price = pressOn && !personalized && quantity === 2
+        ? Number(card.dataset.promoPrice)
+        : unitPrice * quantity;
 
     return {
         id: card.dataset.serviceId,
         name: card.dataset.serviceName,
-        detail: pressOn ? `Talle ${size}${personalized ? ' · diseño personalizado' : ''}` : '',
+        detail: pressOn ? `${quantity} ${quantity === 1 ? 'set' : 'sets'} · Talle ${size}${personalized ? ' · diseño personalizado' : quantity === 2 ? ' · promo aplicada' : ''}` : '',
         price,
         estimate: card.dataset.estimate === 'true',
         type: 'service'
@@ -160,9 +165,18 @@ serviceCards.forEach((card) => {
         }
     });
 
+    card.querySelector('.press-on-quantity-input')?.addEventListener('change', (event) => {
+        const quantityInput = event.currentTarget;
+        quantityInput.value = String(Math.min(2, Math.max(1, Number(quantityInput.value) || 1)));
+        if (selectedServices.has(serviceId)) {
+            selectedServices.set(serviceId, getServiceData(card));
+            renderSummary();
+        }
+    });
+
     card.querySelector('.press-on-custom-input')?.addEventListener('change', () => {
         const custom = card.querySelector('.press-on-custom-input').checked;
-        card.querySelector('.press-on-price').textContent = custom ? 'Personalizado $12.000' : 'Estándar $10.000';
+        card.querySelector('.press-on-price').textContent = custom ? 'Personalizado $12.000 c/u' : 'Estándar $10.000 c/u';
         if (selectedServices.has(serviceId)) {
             selectedServices.set(serviceId, getServiceData(card));
             renderSummary();
@@ -232,13 +246,14 @@ requestForm.addEventListener('submit', (event) => {
         'Hola Malu, quisiera solicitar un turno:',
         `Nombre: ${document.querySelector('#client-name').value.trim()}`,
         `Fecha preferida: ${dateLabel}`,
+        `Horario aproximado: ${preferredTime.value} h`,
         '',
         'Servicios:',
         ...serviceLines,
         `Estimado: ${hasStartingPrice ? 'desde ' : ''}${currency.format(total)}`,
         note ? `Nota: ${note}` : '',
         '',
-        'Entiendo que la fecha queda pendiente de confirmación.'
+        'Entiendo que la fecha y el horario quedan pendientes de confirmación.'
     ].filter(Boolean).join('\n');
 
     const whatsappUrl = `https://wa.me/5491164639977?text=${encodeURIComponent(message)}`;
