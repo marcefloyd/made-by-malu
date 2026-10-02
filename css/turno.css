@@ -27,10 +27,12 @@
 .service-add { background: transparent; border: 1px solid var(--rose-dark); border-radius: 3px; color: var(--rose-dark); cursor: pointer; font: inherit; font-size: .78rem; font-weight: 700; margin-top: auto; min-height: 40px; padding: 9px 14px; transition: background .2s, color .2s; }
 .service-add:hover, .service-add:focus-visible, .booking-service.is-selected .service-add { background: var(--rose-dark); color: var(--white); }
 .press-on-options { align-items: center; display: flex; flex-wrap: wrap; gap: 12px 18px; margin: -2px 0 10px; }
+.booking-service-content [hidden] { display: none; }
 .press-on-options label { align-items: center; color: var(--muted); display: flex; font-size: .8rem; gap: 7px; }
 .press-on-options select { background: var(--cream); border: 1px solid var(--line); border-radius: 3px; color: var(--ink); font: inherit; padding: 5px 9px; }
 .press-on-options input[type="number"] { background: var(--cream); border: 1px solid var(--line); border-radius: 3px; color: var(--ink); font: inherit; padding: 5px 7px; width: 64px; }
 .booking-service-content .press-on-promo { align-self: flex-start; color: var(--autumn-red); font-size: .78rem; margin: -8px 0 12px; width: fit-content; }
+.booking-service-content > .press-on-delivery { background: var(--blush); border-left: 3px solid var(--rose-dark); color: var(--ink); font-size: .76rem; line-height: 1.45; margin: 0 0 14px; min-height: 0; padding: 9px 10px; }
 .press-on-custom input, .booking-extras input { accent-color: var(--rose-dark); }
 .booking-service-content .reference-note { color: var(--muted); font-size: .7rem; margin: -5px 0 12px; }
 

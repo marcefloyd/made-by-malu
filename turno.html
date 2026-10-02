@@ -74,8 +74,9 @@
                         <div class="booking-service-content">
                             <div class="booking-service-heading"><h3>Press On Nails</h3><span class="press-on-price">Estándar $10.000 c/u</span></div>
                             <p>Sets reutilizables en talles S, M y L o con diseño personalizado.</p>
-                            <p class="press-on-promo promo-badge">Promo: 2 sets estándar por $16.000</p>
-                            <div class="press-on-options">
+                            <p class="press-on-promo promo-badge" id="press-on-promo" hidden>Promo: 2 sets estándar por $16.000</p>
+                            <p class="press-on-delivery" id="press-on-delivery" hidden><strong>Entrega:</strong> No hacemos envíos. Coordinamos un punto de encuentro por WhatsApp.</p>
+                            <div class="press-on-options" id="press-on-options" hidden>
                                 <label>Talle de ambos sets
                                     <select class="press-on-size" aria-label="Talle de Press On">
                                         <option value="S">S</option>
@@ -88,8 +89,8 @@
                                 </label>
                                 <label class="press-on-custom"><input class="press-on-custom-input" type="checkbox"> Personalizado</label>
                             </div>
-                            <p class="reference-note">Foto de referencia</p>
-                            <button class="service-add" type="button" aria-pressed="false">Agregar</button>
+                            <p class="reference-note" id="press-on-reference" hidden>Foto de referencia</p>
+                            <button class="service-add" type="button" aria-pressed="false" aria-expanded="false" aria-controls="press-on-promo press-on-delivery press-on-options press-on-reference">Elegir Press On</button>
                         </div>
                     </article>
                 </div>

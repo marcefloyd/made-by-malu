@@ -127,10 +127,23 @@ function renderSummary() {
 
     serviceCards.forEach((card) => {
         const selected = selectedServices.has(card.dataset.serviceId);
+        const pressOn = card.dataset.serviceId === 'press-on';
+        const configuring = pressOn && card.classList.contains('is-configuring');
         const addButton = card.querySelector('.service-add');
+        const pressOnPromo = card.querySelector('.press-on-promo');
+        const pressOnOptions = card.querySelector('.press-on-options');
+        const deliveryNote = card.querySelector('.press-on-delivery');
+        const referenceNote = card.querySelector('.reference-note');
         card.classList.toggle('is-selected', selected);
         addButton.setAttribute('aria-pressed', String(selected));
-        addButton.textContent = selected ? 'Quitar' : 'Agregar';
+        if (pressOn) {
+            addButton.setAttribute('aria-expanded', String(configuring));
+            pressOnPromo.hidden = !configuring;
+            pressOnOptions.hidden = !configuring;
+            deliveryNote.hidden = !configuring;
+            referenceNote.hidden = !configuring;
+        }
+        addButton.textContent = selected ? 'Quitar' : pressOn ? configuring ? 'Agregar al pedido' : 'Elegir Press On' : 'Agregar';
     });
 }
 
@@ -141,6 +154,9 @@ function removeItem(item) {
         if (input) input.checked = false;
     } else {
         selectedServices.delete(item.id);
+        if (item.id === 'press-on') {
+            serviceCards.find((card) => card.dataset.serviceId === item.id)?.classList.remove('is-configuring');
+        }
     }
     renderSummary();
 }
@@ -150,8 +166,14 @@ serviceCards.forEach((card) => {
     const serviceId = card.dataset.serviceId;
 
     addButton.addEventListener('click', () => {
+        if (serviceId === 'press-on' && !selectedServices.has(serviceId) && !card.classList.contains('is-configuring')) {
+            card.classList.add('is-configuring');
+            renderSummary();
+            return;
+        }
         if (selectedServices.has(serviceId)) {
             selectedServices.delete(serviceId);
+            card.classList.remove('is-configuring');
         } else {
             selectedServices.set(serviceId, getServiceData(card));
         }
@@ -256,7 +278,7 @@ requestForm.addEventListener('submit', (event) => {
         'Entiendo que la fecha y el horario quedan pendientes de confirmación.'
     ].filter(Boolean).join('\n');
 
-    const whatsappUrl = `https://wa.me/5491164639977?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/5491171201087?text=${encodeURIComponent(message)}`;
     requestDialog.close();
     window.location.assign(whatsappUrl);
 });
