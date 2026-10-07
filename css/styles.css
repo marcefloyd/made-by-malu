@@ -153,12 +153,55 @@ footer { color: var(--muted); font-size: .78rem; padding: 26px 0; }
 .back-to-top { border-bottom: 1px solid var(--rose); color: var(--rose-dark); font-weight: 700; padding-bottom: 2px; transition: border-color .2s, color .2s; }
 .back-to-top:hover, .back-to-top:focus-visible { border-color: var(--autumn-orange); color: var(--autumn-link); }
 
-.floating-booking { align-items: center; animation: booking-float 3.8s ease-in-out infinite; background: var(--rose-dark); border: 1px solid rgba(255,255,255,.28); border-radius: 999px; bottom: max(24px, env(safe-area-inset-bottom)); box-shadow: 0 8px 26px rgba(44,36,38,.24); color: white; display: inline-flex; gap: 10px; min-height: 64px; padding: 8px 20px 8px 10px; position: fixed; right: max(24px, env(safe-area-inset-right)); transition: background .2s, box-shadow .2s, transform .2s; z-index: 30; }
-.floating-booking:hover, .floating-booking:focus-visible { animation-play-state: paused; background: var(--autumn-red); box-shadow: 0 10px 30px rgba(44,36,38,.3); transform: translateY(-3px); }
-.floating-booking:focus-visible { outline: 3px solid var(--autumn-light); outline-offset: 4px; }
-.floating-booking > span { font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
-.floating-booking-mark { align-items: center; background: var(--cream); border: 2px solid rgba(255,255,255,.8); border-radius: 50%; display: flex; flex: 0 0 46px; height: 46px; justify-content: center; overflow: hidden; width: 46px; }
-.floating-booking-icon { height: 100%; object-fit: cover; width: 100%; }
+.floating-booking {
+    align-items: center;
+    animation: booking-float 3.8s ease-in-out infinite;
+    background: var(--rose-dark);
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 50%;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    box-shadow: 0 8px 26px rgba(44,36,38,.24);
+    display: flex;
+    height: 60px;
+    justify-content: center;
+    position: fixed;
+    right: max(24px, env(safe-area-inset-right));
+    transition: background .2s, box-shadow .2s, transform .2s;
+    width: 60px;
+    z-index: 30;
+    padding: 0;
+}
+
+.floating-booking:hover, .floating-booking:focus-visible {
+    animation-play-state: paused;
+    background: var(--autumn-red);
+    box-shadow: 0 10px 30px rgba(44,36,38,.3);
+    transform: translateY(-3px);
+}
+
+.floating-booking:focus-visible {
+    outline: 3px solid var(--autumn-light);
+    outline-offset: 4px;
+}
+
+.floating-booking-mark {
+    align-items: center;
+    background: var(--cream);
+    border: 2px solid rgba(255,255,255,.8);
+    border-radius: 50%; /* Vuelve el círculo interior totalmente redondo */
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+}
+
+.floating-booking-icon {
+    height: 100%;
+    object-fit: cover;
+    width: 60%;
+    border-radius: 50%; /* Asegura que la imagen también tome la forma circular */
+}
 @keyframes booking-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 @media (prefers-reduced-motion: reduce) { .floating-booking { animation: none; } }
 
