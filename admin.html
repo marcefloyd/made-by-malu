@@ -6,21 +6,27 @@
     <title>Panel de Administración - Made by Malu</title>
     <!-- Estilos con Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configurar Tailwind para soportar clases dark por selector manual
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
 
     <!-- SECCIÓN DE LOGIN -->
-    <div id="login-section" class="flex items-center justify-center min-h-screen bg-pink-50">
-        <div class="bg-white p-8 rounded-xl shadow-md w-96">
-            <h2 class="text-2xl font-bold mb-6 text-center text-pink-600">Acceso Administrador</h2>
+    <div id="login-section" class="flex items-center justify-center min-h-screen bg-pink-50 dark:bg-gray-950">
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md w-96 border dark:border-gray-700">
+            <h2 class="text-2xl font-bold mb-6 text-center text-pink-600 dark:text-pink-400">Acceso Administrador</h2>
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                    <input type="email" id="login-email" required class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Correo electrónico</label>
+                    <input type="email" id="login-email" required class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-pink-500 focus:border-pink-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Contraseña</label>
-                    <input type="password" id="login-password" required class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
+                    <input type="password" id="login-password" required class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-pink-500 focus:border-pink-500">
                 </div>
                 <button type="submit" class="w-full bg-pink-600 text-white p-2 rounded-md hover:bg-pink-700 font-medium">Ingresar</button>
                 <p id="login-error" class="text-red-500 text-sm text-center mt-2"></p>
@@ -30,29 +36,35 @@
 
     <!-- DASHBOARD -->
     <div id="dashboard-section" class="hidden">
-        <header class="bg-white shadow-sm">
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
             <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 class="text-xl font-bold text-gray-800">💅 Panel de Turnos - Made by Malu</h1>
-                <button id="logout-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 text-sm font-medium">Cerrar Sesión</button>
+                <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">💅 Panel de Turnos - Made by Malu</h1>
+                <div class="flex items-center gap-3">
+                    <!-- BOTÓN MODO CLARO / OSCURO -->
+                    <button id="theme-toggle-btn" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 p-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 text-sm font-medium transition" title="Cambiar Tema">
+                        🌙
+                    </button>
+                    <button id="logout-btn" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 text-sm font-medium">Cerrar Sesión</button>
+                </div>
             </div>
         </header>
 
         <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Formulario Turno -->
-            <div class="bg-white p-6 rounded-xl shadow-sm h-fit">
-                <h2 class="text-lg font-semibold mb-4 text-gray-800">Agendar Nuevo Turno</h2>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm h-fit border dark:border-gray-700">
+                <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Agendar Nuevo Turno</h2>
                 <form id="turno-form" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Nombre de la Clienta</label>
-                        <input type="text" id="cliente-nombre" required class="mt-1 w-full p-2 border border-gray-300 rounded-md">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre de la Clienta</label>
+                        <input type="text" id="cliente-nombre" required class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Celular / WhatsApp</label>
-                        <input type="tel" id="cliente-celular" placeholder="Ej: 1123456789" required class="mt-1 w-full p-2 border border-gray-300 rounded-md">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Celular / WhatsApp</label>
+                        <input type="tel" id="cliente-celular" placeholder="Ej: 1123456789" required class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Servicio / Producto</label>
-                        <select id="servicio" class="mt-1 w-full p-2 border border-gray-300 rounded-md">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Servicio / Producto</label>
+                        <select id="servicio" class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                             <optgroup label="Servicios Principales">
                                 <option value="Soft Gel (Desde $21.000)">Soft Gel (Desde $21.000)</option>
                                 <option value="Semipermanente (Desde $17.000)">Semipermanente (Desde $17.000)</option>
@@ -67,16 +79,16 @@
 
                     <!-- SELECTOR DE TALLE -->
                     <div id="talle-container" class="hidden">
-                        <label class="block text-sm font-medium text-pink-600">Talle de Press On</label>
-                        <select id="talle-presson" class="mt-1 w-full p-2 border border-pink-300 rounded-md bg-pink-50">
+                        <label class="block text-sm font-medium text-pink-600 dark:text-pink-400">Talle de Press On</label>
+                        <select id="talle-presson" class="mt-1 w-full p-2 border border-pink-300 dark:border-pink-600 rounded-md bg-pink-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                             <option value="Talle S">Talle S</option>
                             <option value="Talle M">Talle M</option>
                             <option value="Talle L">Talle L</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Adicionales / Observaciones</label>
-                        <select id="adicional" class="mt-1 w-full p-2 border border-gray-300 rounded-md">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Adicionales / Observaciones</label>
+                        <select id="adicional" class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                             <option value="Ninguno">Ninguno</option>
                             <option value="Arreglo de uña (+$3.000)">Arreglo de uña (+$3.000)</option>
                             <option value="Reconstrucción completa (+$4.000)">Reconstrucción completa (+$4.000)</option>
@@ -84,36 +96,36 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Notas Personales / Alergias</label>
-                        <input type="text" id="cliente-notas" placeholder="Ej: Uñas débiles" class="mt-1 w-full p-2 border border-gray-300 rounded-md text-sm">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Notas Personales / Alergias</label>
+                        <input type="text" id="cliente-notas" placeholder="Ej: Uñas débiles" class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Fecha y Hora</label>
-                        <input type="datetime-local" id="fecha-hora" required class="mt-1 w-full p-2 border border-gray-300 rounded-md">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Fecha y Hora</label>
+                        <input type="datetime-local" id="fecha-hora" required class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                     </div>
                     <button type="submit" class="w-full bg-pink-600 text-white p-2 rounded-md hover:bg-pink-700 font-medium">Guardar Turno</button>
                 </form>
             </div>
 
             <!-- Listado de Turnos, Botón Calendario e Historial -->
-            <div class="bg-white p-6 rounded-xl shadow-sm md:col-span-2 space-y-8">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm md:col-span-2 space-y-8 border dark:border-gray-700">
                 
                 <!-- BOTÓN PARA DESPLEGAR EL CALENDARIO MENSUAL -->
                 <div>
-                    <button id="btn-toggle-calendario" class="w-full bg-pink-50 border border-pink-200 text-pink-700 font-semibold p-3 rounded-xl hover:bg-pink-100 transition flex justify-between items-center px-4">
+                    <button id="btn-toggle-calendario" class="w-full bg-pink-50 dark:bg-gray-700 border border-pink-200 dark:border-gray-600 text-pink-700 dark:text-pink-300 font-semibold p-3 rounded-xl hover:bg-pink-100 dark:hover:bg-gray-600 transition flex justify-between items-center px-4">
                         <span>📅 Ver Calendario Mensual de Turnos</span>
                         <span id="icono-flecha">▼</span>
                     </button>
 
                     <!-- CONTENEDOR DEL CALENDARIO (OCULTO POR DEFECTO) -->
-                    <div id="calendario-container" class="hidden mt-4 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                    <div id="calendario-container" class="hidden mt-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm">
                         <div class="flex justify-between items-center mb-4">
-                            <button id="mes-anterior" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm font-bold">◀ Mes Ant.</button>
-                            <h3 id="mes-anio-titulo" class="text-base font-bold text-gray-800 capitalize"></h3>
-                            <button id="mes-siguiente" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm font-bold">Mes Sig. ▶</button>
+                            <button id="mes-anterior" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-1 rounded text-sm font-bold">◀ Mes Ant.</button>
+                            <h3 id="mes-anio-titulo" class="text-base font-bold text-gray-800 dark:text-gray-100 capitalize"></h3>
+                            <button id="mes-siguiente" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 py-1 rounded text-sm font-bold">Mes Sig. ▶</button>
                         </div>
                         <!-- Días de la semana -->
-                        <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-gray-500 mb-2">
+                        <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-gray-500 dark:text-gray-400 mb-2">
                             <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
                         </div>
                         <!-- Cuadrícula de días del mes -->
@@ -125,24 +137,24 @@
 
                 <div>
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-                        <h2 id="titulo-tabla-turnos" class="text-lg font-semibold text-gray-800">Próximos Turnos (General)</h2>
+                        <h2 id="titulo-tabla-turnos" class="text-lg font-semibold text-gray-800 dark:text-gray-100">Próximos Turnos (General)</h2>
                         <div class="flex gap-1 text-xs">
                             <button onclick="window.filtrarTurnos('todos')" id="btn-filtro-todos" class="bg-pink-600 text-white px-3 py-1.5 rounded-md font-medium">Todos</button>
-                            <button onclick="window.filtrarTurnos('hoy')" id="btn-filtro-hoy" class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 font-medium">Hoy</button>
-                            <button onclick="window.filtrarTurnos('semana')" id="btn-filtro-semana" class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 font-medium">Próximos 7 Días</button>
+                            <button onclick="window.filtrarTurnos('hoy')" id="btn-filtro-hoy" class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 font-medium">Hoy</button>
+                            <button onclick="window.filtrarTurnos('semana')" id="btn-filtro-semana" class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 font-medium">Próximos 7 Días</button>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead>
                                 <tr>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Clienta / Celular</th>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Servicio / Notas</th>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Fecha y Hora</th>
-                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Clienta / Celular</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Servicio / Notas</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Fecha y Hora</th>
+                                    <th class="px-3 py-2 text-right text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="turnos-tabla" class="divide-y divide-gray-200 text-sm">
+                            <tbody id="turnos-tabla" class="divide-y divide-gray-200 dark:divide-gray-700 text-sm">
                                 <!-- Se cargan en tiempo real -->
                             </tbody>
                         </table>
@@ -150,29 +162,29 @@
                 </div>
 
                 <!-- SECCIÓN DE HISTORIAL CON BUSCADOR -->
-                <div class="border-t pt-6">
+                <div class="border-t dark:border-gray-700 pt-6">
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-                        <h2 class="text-lg font-semibold text-gray-800">📋 Historial y Notas de Clientas</h2>
+                        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">📋 Historial y Notas de Clientas</h2>
                         <div class="flex gap-2 w-full sm:w-auto">
-                            <input type="text" id="buscador-celular" placeholder="Buscar por celular..." class="p-2 border border-gray-300 rounded-md text-sm w-full sm:w-64">
+                            <input type="text" id="buscador-celular" placeholder="Buscar por celular..." class="p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm w-full sm:w-64">
                             <button id="btn-buscar" class="bg-pink-600 text-white px-4 py-2 rounded-md text-sm hover:bg-pink-700 font-medium">Buscar</button>
-                            <button id="btn-limpiar" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm hover:bg-gray-300">Limpiar</button>
+                            <button id="btn-limpiar" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-md text-sm hover:bg-gray-300 dark:hover:bg-gray-600">Limpiar</button>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead>
                                 <tr>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Clienta</th>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Celular</th>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Servicio Realizado</th>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Notas / Detalles</th>
-                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
-                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">Acción</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Clienta</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Celular</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Servicio Realizado</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Notas / Detalles</th>
+                                    <th class="px-3 py-2 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Fecha</th>
+                                    <th class="px-3 py-2 text-right text-xs font-bold text-gray-700 dark:text-gray-300 uppercase">Acción</th>
                                 </tr>
                             </thead>
-                            <tbody id="historial-tabla" class="divide-y divide-gray-200 text-sm">
-                                <tr><td colspan="6" class="px-4 py-4 text-center text-gray-500">Ingrese un número de celular o haga clic en "Historial" en un turno.</td></tr>
+                            <tbody id="historial-tabla" class="divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+                                <tr><td colspan="6" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400">Ingrese un número de celular o haga clic en "Historial" en un turno.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -180,6 +192,8 @@
             </div>
         </main>
     </div>
-     <script type="module" src="/js/admin.js"></script>
+
+    <!-- Vinculación correcta con tu archivo JS separado -->
+    <script type="module" src="/js/admin.js"></script>
 </body>
-</html>
+</html> 

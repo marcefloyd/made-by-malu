@@ -41,7 +41,33 @@ const btnMesSiguiente = document.getElementById('mes-siguiente');
 
 let fechaActualCalendario = new Date();
 let listaTurnosCache = [];
-let filtroActualTurnos = 'todos'; // 'todos', 'hoy', 'semana'
+let filtroActualTurnos = 'todos';
+
+// CONFIGURACIÓN DEL MODO CLARO / OSCURO DESDE JS
+const htmlElement = document.documentElement;
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+if (themeToggleBtn) {
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        htmlElement.classList.add('dark');
+        themeToggleBtn.textContent = '☀️';
+    } else {
+        htmlElement.classList.remove('dark');
+        themeToggleBtn.textContent = '🌙';
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        if (htmlElement.classList.contains('dark')) {
+            htmlElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            themeToggleBtn.textContent = '🌙';
+        } else {
+            htmlElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            themeToggleBtn.textContent = '☀️';
+        }
+    });
+}
 
 btnToggleCalendario.addEventListener('click', () => {
     calendarioContainer.classList.toggle('hidden');
@@ -160,7 +186,7 @@ window.filtrarTurnos = function(tipo) {
         if (t === tipo) {
             btn.className = "bg-pink-600 text-white px-3 py-1.5 rounded-md font-medium";
         } else {
-            btn.className = "bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 font-medium";
+            btn.className = "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 font-medium";
         }
     });
 
@@ -196,7 +222,7 @@ function pintarTablaTurnos() {
         const trVacio = document.createElement('tr');
         const tdVacio = document.createElement('td');
         tdVacio.colSpan = 4;
-        tdVacio.className = "px-4 py-4 text-center text-gray-500";
+        tdVacio.className = "px-4 py-4 text-center text-gray-500 dark:text-gray-400";
         tdVacio.textContent = "No hay turnos para este filtro.";
         trVacio.appendChild(tdVacio);
         turnosTabla.appendChild(trVacio);
@@ -215,9 +241,9 @@ function pintarTablaTurnos() {
 
         const tr = document.createElement('tr');
 
-        // Celda Clienta / Celular (Segura)
+        // Celda Clienta / Celular
         const tdClienta = document.createElement('td');
-        tdClienta.className = "px-3 py-3 font-medium text-gray-900";
+        tdClienta.className = "px-3 py-3 font-semibold text-gray-950 dark:text-gray-100";
         const spanNombre = document.createElement('span');
         spanNombre.textContent = turno.cliente;
         tdClienta.appendChild(spanNombre);
@@ -225,46 +251,46 @@ function pintarTablaTurnos() {
         const aWp = document.createElement('a');
         aWp.href = urlWhatsApp;
         aWp.target = "_blank";
-        aWp.className = "text-xs text-green-600 hover:underline font-semibold";
+        aWp.className = "text-xs text-green-600 dark:text-green-400 hover:underline font-bold";
         aWp.textContent = `📱 ${turno.celular}`;
         tdClienta.appendChild(aWp);
         tr.appendChild(tdClienta);
 
-        // Celda Servicio / Notas (Segura)
+        // Celda Servicio / Notas
         const tdServicio = document.createElement('td');
-        tdServicio.className = "px-3 py-3 text-gray-600";
+        tdServicio.className = "px-3 py-3 text-gray-800 dark:text-gray-200";
         const spanServ = document.createElement('span');
         spanServ.textContent = turno.servicio;
         tdServicio.appendChild(spanServ);
         tdServicio.appendChild(document.createElement('br'));
         const spanNotas = document.createElement('span');
-        spanNotas.className = "text-xs text-pink-600 italic";
+        spanNotas.className = "text-xs text-pink-600 dark:text-pink-400 italic font-medium";
         spanNotas.textContent = `📝 ${turno.notas || 'Sin notas'}`;
         tdServicio.appendChild(spanNotas);
         tr.appendChild(tdServicio);
 
         // Celda Fecha
         const tdFecha = document.createElement('td');
-        tdFecha.className = "px-3 py-3 text-gray-600";
+        tdFecha.className = "px-3 py-3 text-gray-800 dark:text-gray-200 font-medium";
         tdFecha.textContent = fechaFormateada;
         tr.appendChild(tdFecha);
 
-        // Celda Acciones (Botones seguros)
+        // Celda Acciones
         const tdAcciones = document.createElement('td');
         tdAcciones.className = "px-3 py-3 text-right space-x-1";
 
         const btnHistorial = document.createElement('button');
-        btnHistorial.className = "text-blue-600 hover:text-blue-900 font-medium text-xs bg-blue-50 px-2 py-1 rounded";
+        btnHistorial.className = "text-blue-600 dark:text-blue-400 hover:underline font-semibold text-xs bg-blue-50 dark:bg-blue-950 px-2 py-1 rounded";
         btnHistorial.textContent = "Historial";
         btnHistorial.onclick = () => window.verHistorialPorCelular(turno.celular);
 
         const btnCompletar = document.createElement('button');
-        btnCompletar.className = "text-green-600 hover:text-green-900 font-medium text-xs bg-green-50 px-2 py-1 rounded";
+        btnCompletar.className = "text-green-600 dark:text-green-400 hover:underline font-semibold text-xs bg-green-50 dark:bg-green-950 px-2 py-1 rounded";
         btnCompletar.textContent = "Completar";
         btnCompletar.onclick = () => window.completarTurno(turno.id, turno.cliente, turno.celular, turno.servicio, turno.notas, turno.fechaHora);
 
         const btnCancelar = document.createElement('button');
-        btnCancelar.className = "text-red-600 hover:text-red-900 font-medium text-xs bg-red-50 px-2 py-1 rounded";
+        btnCancelar.className = "text-red-600 dark:text-red-400 hover:underline font-semibold text-xs bg-red-50 dark:bg-red-950 px-2 py-1 rounded";
         btnCancelar.textContent = "Cancelar";
         btnCancelar.onclick = () => window.cancelarTurno(turno.id);
 
@@ -293,16 +319,16 @@ function renderizarCalendario() {
 
     for (let i = 0; i < diaInicioSemana; i++) {
         const celdaVacia = document.createElement('div');
-        celdaVacia.className = "h-24 bg-gray-50 rounded border border-gray-100";
+        celdaVacia.className = "h-24 bg-gray-50 dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700";
         calendarioGrid.appendChild(celdaVacia);
     }
 
     for (let dia = 1; dia <= ultimoDiaMes; dia++) {
         const celda = document.createElement('div');
-        celda.className = "h-24 bg-white rounded border border-gray-200 p-1 overflow-y-auto text-xs flex flex-col justify-between";
+        celda.className = "h-24 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-1 overflow-y-auto text-xs flex flex-col justify-between";
         
         const numeroDia = document.createElement('div');
-        numeroDia.className = "font-bold text-gray-700 text-right";
+        numeroDia.className = "font-bold text-gray-800 dark:text-gray-200 text-right";
         numeroDia.textContent = dia;
         celda.appendChild(numeroDia);
 
@@ -314,9 +340,9 @@ function renderizarCalendario() {
             if (fTurno.getDate() === dia && fTurno.getMonth() === mes && fTurno.getFullYear() === anio) {
                 const horaStr = fTurno.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
                 const itemTurno = document.createElement('div');
-                itemTurno.className = "bg-pink-100 text-pink-800 p-1 rounded text-[10px] truncate font-medium";
+                itemTurno.className = "bg-pink-100 dark:bg-pink-950 text-pink-800 dark:text-pink-200 p-1 rounded text-[10px] truncate font-semibold";
                 itemTurno.title = `${horaStr} - ${turno.cliente} (${turno.servicio})`;
-                itemTurno.textContent = `${horaStr} ${turno.cliente}`; // TextContent previene XSS aquí también
+                itemTurno.textContent = `${horaStr} ${turno.cliente}`;
                 contenedorTurnosDia.appendChild(itemTurno);
             }
         });
@@ -391,34 +417,34 @@ window.verHistorialPorCelular = async function(celularParam) {
             const tr = document.createElement('tr');
 
             const tdCliente = document.createElement('td');
-            tdCliente.className = "px-3 py-3 font-medium text-gray-900";
+            tdCliente.className = "px-3 py-3 font-semibold text-gray-950 dark:text-gray-100";
             tdCliente.textContent = item.cliente;
             tr.appendChild(tdCliente);
 
             const tdCelular = document.createElement('td');
-            tdCelular.className = "px-3 py-3 text-gray-600";
+            tdCelular.className = "px-3 py-3 text-gray-800 dark:text-gray-200 font-medium";
             tdCelular.textContent = item.celular;
             tr.appendChild(tdCelular);
 
             const tdServicio = document.createElement('td');
-            tdServicio.className = "px-3 py-3 text-gray-600";
+            tdServicio.className = "px-3 py-3 text-gray-800 dark:text-gray-200 font-medium";
             tdServicio.textContent = item.servicio;
             tr.appendChild(tdServicio);
 
             const tdNotas = document.createElement('td');
-            tdNotas.className = "px-3 py-3 text-pink-600 italic text-xs";
+            tdNotas.className = "px-3 py-3 text-pink-600 dark:text-pink-400 italic text-xs font-medium";
             tdNotas.textContent = item.notas || 'Sin notas';
             tr.appendChild(tdNotas);
 
             const tdFecha = document.createElement('td');
-            tdFecha.className = "px-3 py-3 text-gray-600";
+            tdFecha.className = "px-3 py-3 text-gray-800 dark:text-gray-200 font-medium";
             tdFecha.textContent = fechaFormateada;
             tr.appendChild(tdFecha);
 
             const tdAccion = document.createElement('td');
             tdAccion.className = "px-3 py-3 text-right";
             const btnBorrar = document.createElement('button');
-            btnBorrar.className = "text-red-600 hover:text-red-900 font-medium text-xs bg-red-50 px-2 py-1 rounded";
+            btnBorrar.className = "text-red-600 dark:text-red-400 hover:underline font-semibold text-xs bg-red-50 dark:bg-red-950 px-2 py-1 rounded";
             btnBorrar.textContent = "Borrar";
             btnBorrar.onclick = () => window.eliminarHistorial(id, item.celular);
             tdAccion.appendChild(btnBorrar);
@@ -436,7 +462,7 @@ function historialtablaHTML(texto) {
     const tr = document.createElement('tr');
     const td = document.createElement('td');
     td.colSpan = 6;
-    td.className = "px-4 py-4 text-center text-gray-500";
+    td.className = "px-4 py-4 text-center text-gray-500 dark:text-gray-400";
     td.textContent = texto;
     tr.appendChild(td);
     historialTabla.appendChild(tr);
