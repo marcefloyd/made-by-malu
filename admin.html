@@ -47,6 +47,10 @@
                         <input type="text" id="cliente-nombre" required class="mt-1 w-full p-2 border border-gray-300 rounded-md">
                     </div>
                     <div>
+                        <label class="block text-sm font-medium text-gray-700">Celular / WhatsApp</label>
+                        <input type="tel" id="cliente-celular" placeholder="Ej: 1123456789" required class="mt-1 w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium text-gray-700">Servicio / Producto</label>
                         <select id="servicio" class="mt-1 w-full p-2 border border-gray-300 rounded-md">
                             <optgroup label="Servicios Principales">
@@ -61,7 +65,7 @@
                         </select>
                     </div>
 
-                    <!-- SELECTOR DE TALLE (Aparece solo si es Press On) -->
+                    <!-- SELECTOR DE TALLE -->
                     <div id="talle-container" class="hidden">
                         <label class="block text-sm font-medium text-pink-600">Talle de Press On</label>
                         <select id="talle-presson" class="mt-1 w-full p-2 border border-pink-300 rounded-md bg-pink-50">
@@ -80,6 +84,10 @@
                         </select>
                     </div>
                     <div>
+                        <label class="block text-sm font-medium text-gray-700">Notas Personales / Alergias</label>
+                        <input type="text" id="cliente-notas" placeholder="Ej: Uñas débiles" class="mt-1 w-full p-2 border border-gray-300 rounded-md text-sm">
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium text-gray-700">Fecha y Hora</label>
                         <input type="datetime-local" id="fecha-hora" required class="mt-1 w-full p-2 border border-gray-300 rounded-md">
                     </div>
@@ -87,23 +95,87 @@
                 </form>
             </div>
 
-            <!-- Listado de Turnos -->
-            <div class="bg-white p-6 rounded-xl shadow-sm md:col-span-2">
-                <h2 class="text-lg font-semibold mb-4 text-gray-800">Próximos Turnos</h2>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Clienta</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Servicio / Adicional</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Fecha y Hora</th>
-                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="turnos-tabla" class="divide-y divide-gray-200 text-sm">
-                            <!-- Se cargan en tiempo real -->
-                        </tbody>
-                    </table>
+            <!-- Listado de Turnos, Botón Calendario e Historial -->
+            <div class="bg-white p-6 rounded-xl shadow-sm md:col-span-2 space-y-8">
+                
+                <!-- BOTÓN PARA DESPLEGAR EL CALENDARIO MENSUAL -->
+                <div>
+                    <button id="btn-toggle-calendario" class="w-full bg-pink-50 border border-pink-200 text-pink-700 font-semibold p-3 rounded-xl hover:bg-pink-100 transition flex justify-between items-center px-4">
+                        <span>📅 Ver Calendario Mensual de Turnos</span>
+                        <span id="icono-flecha">▼</span>
+                    </button>
+
+                    <!-- CONTENEDOR DEL CALENDARIO (OCULTO POR DEFECTO) -->
+                    <div id="calendario-container" class="hidden mt-4 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <button id="mes-anterior" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm font-bold">◀ Mes Ant.</button>
+                            <h3 id="mes-anio-titulo" class="text-base font-bold text-gray-800 capitalize"></h3>
+                            <button id="mes-siguiente" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm font-bold">Mes Sig. ▶</button>
+                        </div>
+                        <!-- Días de la semana -->
+                        <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-gray-500 mb-2">
+                            <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+                        </div>
+                        <!-- Cuadrícula de días del mes -->
+                        <div id="calendario-grid" class="grid grid-cols-7 gap-1">
+                            <!-- Se genera con JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+                        <h2 id="titulo-tabla-turnos" class="text-lg font-semibold text-gray-800">Próximos Turnos (General)</h2>
+                        <div class="flex gap-1 text-xs">
+                            <button onclick="window.filtrarTurnos('todos')" id="btn-filtro-todos" class="bg-pink-600 text-white px-3 py-1.5 rounded-md font-medium">Todos</button>
+                            <button onclick="window.filtrarTurnos('hoy')" id="btn-filtro-hoy" class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 font-medium">Hoy</button>
+                            <button onclick="window.filtrarTurnos('semana')" id="btn-filtro-semana" class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 font-medium">Próximos 7 Días</button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Clienta / Celular</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Servicio / Notas</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Fecha y Hora</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="turnos-tabla" class="divide-y divide-gray-200 text-sm">
+                                <!-- Se cargan en tiempo real -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN DE HISTORIAL CON BUSCADOR -->
+                <div class="border-t pt-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                        <h2 class="text-lg font-semibold text-gray-800">📋 Historial y Notas de Clientas</h2>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <input type="text" id="buscador-celular" placeholder="Buscar por celular..." class="p-2 border border-gray-300 rounded-md text-sm w-full sm:w-64">
+                            <button id="btn-buscar" class="bg-pink-600 text-white px-4 py-2 rounded-md text-sm hover:bg-pink-700 font-medium">Buscar</button>
+                            <button id="btn-limpiar" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm hover:bg-gray-300">Limpiar</button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Clienta</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Celular</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Servicio Realizado</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Notas / Detalles</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historial-tabla" class="divide-y divide-gray-200 text-sm">
+                                <tr><td colspan="6" class="px-4 py-4 text-center text-gray-500">Ingrese un número de celular o haga clic en "Historial" en un turno.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </main>
