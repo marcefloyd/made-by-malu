@@ -1,52 +1,17 @@
-// ==========================================
-// FUNCIÓN SERVERLESS DE VERCEL (PANEL PRO DE BELLEZA - CFO AI)
-// ==========================================
-export default async function handler(req, res) {
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    );
-
-    if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
-    }
-
+module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Método no permitido' });
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    try {
-        const { pregunta, contexto_datos } = req.body;
+    const { pregunta, contexto_datos } = req.body;
+    const apiKey = process.env.GEMINI_API_KEY;
 
-        if (!pregunta) {
-            return res.status(400).json({ error: 'Falta la pregunta del usuario.' });
-        }
+    if (!apiKey) {
+        return res.status(500).json({ error: 'Falta configurar la API Key de Gemini en las variables de entorno de Vercel.' });
+    }
 
-        const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) {
-            return res.status(500).json({ error: 'Falta configurar GEMINI_API_KEY en Vercel.' });
-        }
+    const systemInstruction = `Eres un asistente de negocio experto y CFO para un salón de belleza. Analiza los datos de Supabase y responde con precisión, cálculos exactos, márgenes y visión financiera profesional.`;
 
-        const contextoJSON = JSON.stringify(contexto_datos || {}, null, 2);
-
-        // Cerebro y reglas definitivas del CFO y Guía de la App
-        const systemInstruction = `
-Eres el CFO, analista financiero, socio estratégico y guía oficial del "Panel Pro de Belleza", el software de gestión exclusivo para este salón de alta gama. Tienes acceso completo en tiempo real a los datos operativos (ventas, turnos, clientas, stock, costos y gastos fijos).
-
-REGLAS ESTRICTAS DE COMPORTAMIENTO:
-1. **Núcleo Cerrado y Exclusivo:** Responde ÚNICAMENTE basándote en los datos de la base de Supabase y las funciones de esta aplicación. Prohibido inventar información, buscar en internet o derivar a otras plataformas o precios externos. Si algo no corresponde a la app o al salón, recórtalo amablemente y enfoca la respuesta en el negocio.
-2. **Mentalidad CFO y Negocio:** Analiza la rentabilidad, detecta tendencias de venta, avisa sobre alertas de stock bajo e identifica horarios pico o oportunidades comerciales (ej. sugerir promociones o empujar servicios rentables).
-3. **Cálculo de Ganancia Neta (Proyecciones):** Para calcular proyecciones o ganancias a 3 o 6 meses, toma el promedio de ventas diarias, descuenta el costo mayorista de los productos vendidos (usando el 'precio_costo' de la tabla productos) y réstale mensualmente el total de los 'gastos_fijos_mensuales' (alquiler, servicios, etc.). Nunca respondas con la ganancia bruta, entrega siempre el número neto.
-4. **Guía de Uso (Soporte Admin):** Si te preguntan cómo usar el panel (cómo agregar un producto, dar de alta un turno, ver el catálogo o gestionar secciones), explícalo de forma clara, directa y paso a paso según los botones y menús de la interfaz.
-5. **Brevedad Extrema (Ahorro de Tokens):** Sé extremadamente conciso. Ve al grano de inmediato. Utiliza viñetas cortas. Máximo 4 a 5 líneas por respuesta. Cero saludos largos o introducciones redundantes.
-6. **Proactividad:** Cierra cada análisis clave con una sugerencia de negocio accionable y breve para la administración.
-`;
-
-       // Lista con el modelo limpio y con cuota disponible
     const modelosAProbar = [
         'gemini-3.6-flash'
     ];
@@ -70,7 +35,7 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
                         {
                             role: 'user',
                             parts: [
-                                { text: `CONTEXTO ACTUAL DE LA BASE DE DATOS (SUPABASE):\n${contextoJSON}` },
+                                { text: `CONTEXTO ACTUAL DE LA BASE DE DATOS (SUPABASE):\n${JSON.stringify(contexto_datos)}` },
                                 { text: `PREGUNTA DEL ADMINISTRADOR: ${pregunta}` }
                             ]
                         }
@@ -87,7 +52,7 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
                 respuestaTexto = data.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (respuestaTexto) {
                     exito = true;
-                    break; // Si respondió bien, salimos del bucle con éxito
+                    break;
                 }
             } else {
                 ultimoError = data.error?.message || 'Error desconocido';
@@ -104,8 +69,4 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
     }
 
     return res.status(200).json({ respuesta: respuestaTexto });
-
-} catch (error) {
-    console.error('Error detallado:', error);
-    return res.status(500).json({ error: 'Error interno: ' + error.message });
-}
+};
