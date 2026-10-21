@@ -46,13 +46,13 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
 6. **Proactividad:** Cierra cada análisis clave con una sugerencia de negocio accionable y breve para la administración.
 `;
 
-        // Lista ampliada de modelos ordenados por prioridad de uso
-        const modelosAProbar = [
-            'gemini-3.6-flash',
-            'gemini-3.1-flash-lite', 
-            'gemini-2.5-flash-lite',
-            'gemini-2.5-flash'
-        ];
+        // Lista ampliada con los modelos 3.8 y 3.6 preferidos
+const modelosAProbar = [
+    'gemini-3.8-flash',
+    'gemini-3.6-flash',
+    'gemini-2.5-flash-lite',
+    'gemini-2.5-flash'
+];
 
         let respuestaTexto = null;
         let exito = false;
