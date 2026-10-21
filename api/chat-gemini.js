@@ -44,8 +44,13 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
 4. **Brevedad Extrema (Ahorro de Tokens):** Sé extremadamente conciso. Ve al grano de inmediato. Utiliza viñetas cortas. Máximo 4 a 5 líneas por respuesta. Cero saludos largos o introducciones redundantes.
 5. **Proactividad:** Cierra cada análisis clave con una sugerencia de negocio accionable y breve para la administración.
 `;
-// Lista de modelos ordenados por prioridad (si el primero falla o se queda sin cuota, pasa al siguiente)
-        const modelosAProbar = ['gemini-3.6-flash', 'gemini-2.5-flash-lite'];
+/// Lista ampliada de modelos ordenados por prioridad de uso
+const modelosAProbar = [
+    'gemini-3.6-flash',
+    'gemini-3.1-flash-lite', // ¡Aprovechando que tiene bastante disponibilidad!
+    'gemini-2.5-flash-lite',
+    'gemini-2.5-flash'
+];
         let respuestaTexto = null;
         let exito = false;
         let ultimoError = '';
