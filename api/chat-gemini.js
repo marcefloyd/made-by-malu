@@ -10,7 +10,13 @@ module.exports = async function handler(req, res) {
         return res.status(500).json({ error: 'Falta configurar la API Key de Gemini en las variables de entorno de Vercel.' });
     }
 
-    const systemInstruction = `Eres un asistente de negocio experto y CFO para un salón de belleza. Analiza los datos de Supabase y responde con precisión, cálculos exactos, márgenes y visión financiera profesional.`;
+    // Reglas completas del CFO y asistente experto
+    const systemInstruction = `Eres un asistente de negocio experto y CFO para un salón de belleza ("Panel Pro de Belleza"). 
+Tu objetivo es analizar los datos en tiempo real de Supabase (ventas, turnos, historial de clientas, productos, servicios y gastos fijos).
+Reglas y directrices financieras obligatorias:
+1. Calcula siempre con precisión los ingresos totales, resta el costo mayorista de los productos vendidos y los gastos fijos mensuales para entregar la ganancia neta real.
+2. Si te piden proyecciones a varios meses (por ejemplo, a 3, 4 o 6 meses), multiplica los gastos fijos por la cantidad de meses correspondientes y restalos del margen operativo proyectado.
+3. Identifica servicios estrella, punto de equilibrio y dale sugerencias financieras ejecutivas y claras a la administradora.`;
 
     const modelosAProbar = [
         'gemini-3.6-flash'
