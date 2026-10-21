@@ -39,6 +39,7 @@ let carrito = []
 let ventaCliente = null
 let turnoClienteSeleccionado = null
 let filtroActualTurnos = 'todos'
+let gastosFijosCache = []
 
 const byId = id => document.getElementById(id)
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
@@ -128,7 +129,7 @@ if (btnMesSiguiente) {
 window.cambiarPestana = function(pestana) {
     const activo = "bg-pink-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm w-full md:w-auto text-center"
     const inactivo = "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center"
-    ;['turnos', 'ventas', 'catalogo', 'estadisticas'].forEach(p => {
+    ;['turnos', 'ventas', 'catalogo', 'gastos', 'estadisticas'].forEach(p => {
         const sec = document.getElementById(`seccion-${p}`)
         const btn = document.getElementById(`nav-btn-${p}`)
         if (sec) sec.classList.toggle('hidden', p !== pestana)
@@ -137,6 +138,7 @@ window.cambiarPestana = function(pestana) {
     if (pestana === 'turnos') cargarTurnos()
     else if (pestana === 'ventas') { cargarDatosBase(); cargarClientesDir(); cargarVentas() }
     else if (pestana === 'catalogo') renderizarTablasCatalogoAdmin()
+    else if (pestana === 'gastos') cargarGastosFijosUI()
     else if (pestana === 'estadisticas') calcularEstadisticasVentas()
 }
 
@@ -448,7 +450,7 @@ window.cancelarTurno = async function(id) {
     }
 }
 
-// 6. GESTIÓN DE CATÁLOGO
+// 6. GESTIÓN DE CATÁLOGO Y MODAL EXPUESTOS GLOBALMENTE
 function renderizarTablasCatalogoAdmin() {
     const tbServ = document.getElementById('tabla-servicios-admin')
     const tbProd = document.getElementById('tabla-productos-admin')
@@ -467,7 +469,7 @@ function renderizarTablasCatalogoAdmin() {
     tbProd.innerHTML = productosCache.length ? productosCache.map(p => `
         <tr>
             <td class="px-2 py-2.5"><strong class="text-indigo-600">${esc(p.categoria)}</strong><br>${esc(p.nombre)} <span class="text-[11px] text-gray-400">${esc(p.variante || '')}</span><br><span class="text-[11px] font-bold text-pink-600">Stock: ${p.stock}</span></td>
-            <td class="px-2 py-2.5 font-bold text-emerald-500">${money(p.precio)}</td>
+            <td class="px-2 py-2.5 font-bold text-emerald-500">Venta: ${money(p.precio)}<br><span class="text-[11px] text-gray-400">Costo: ${money(p.precio_costo || 0)}</span></td>
             <td class="px-2 py-2.5 text-right space-x-2 whitespace-nowrap">
                 <button onclick="editarCatalogoItem('producto', '${p.id}')" class="text-blue-500 text-xs font-bold">Editar</button>
                 <button onclick="eliminarCatalogoItem('producto', '${p.id}')" class="text-red-500 text-xs font-bold">Borrar</button>
@@ -480,8 +482,17 @@ window.abrirModalCatalogo = function(tipoTabla, id = null) {
     document.getElementById('cat-id').value = id || ''
     document.getElementById('cat-tipo-tabla').value = tipoTabla
     const wrapStock = document.getElementById('campo-stock-wrap')
-    wrapStock.style.display = tipoTabla === 'producto' ? 'block' : 'none'
-    document.getElementById('cat-stock').required = tipoTabla === 'producto'
+    const wrapCosto = document.getElementById('campo-costo-wrap')
+
+    if (tipoTabla === 'producto') {
+        if (wrapStock) wrapStock.style.display = 'block'
+        if (wrapCosto) wrapCosto.style.display = 'block'
+        document.getElementById('cat-stock').required = true
+    } else {
+        if (wrapStock) wrapStock.style.display = 'none'
+        if (wrapCosto) wrapCosto.style.display = 'none'
+        document.getElementById('cat-stock').required = false
+    }
 
     if (id) {
         const item = (tipoTabla === 'servicio' ? serviciosCache : productosCache).find(i => i.id === id)
@@ -490,7 +501,10 @@ window.abrirModalCatalogo = function(tipoTabla, id = null) {
             document.getElementById('cat-nombre').value = item.nombre
             document.getElementById('cat-variante').value = item.variante || ''
             document.getElementById('cat-precio').value = item.precio
-            if (tipoTabla === 'producto') document.getElementById('cat-stock').value = item.stock
+            if (tipoTabla === 'producto') {
+                document.getElementById('cat-stock').value = item.stock
+                document.getElementById('cat-costo').value = item.precio_costo || 0
+            }
             document.getElementById('modal-titulo-cat').textContent = `Editar ${tipoTabla === 'servicio' ? 'Servicio' : 'Producto'}`
         }
     } else {
@@ -500,7 +514,8 @@ window.abrirModalCatalogo = function(tipoTabla, id = null) {
 }
 
 window.cerrarModalCatalogo = function() {
-    document.getElementById('modal-catalogo').classList.add('hidden')
+    const modal = document.getElementById('modal-catalogo')
+    if (modal) modal.classList.add('hidden')
 }
 
 window.editarCatalogoItem = (tabla, id) => abrirModalCatalogo(tabla, id)
@@ -514,17 +529,18 @@ if (formModalCat) {
         const categoria = document.getElementById('cat-categoria').value
         const nombre = document.getElementById('cat-nombre').value
         const variante = document.getElementById('cat-variante').value
-        const precio = parseFloat(document.getElementById('cat-precio').value)
+        const precio = parseFloat(document.getElementById('cat-precio').value) || 0
+        const precio_costo = tabla === 'producto' ? parseFloat(document.getElementById('cat-costo').value) || 0 : 0
         const stock = tabla === 'producto' ? parseInt(document.getElementById('cat-stock').value) || 0 : null
 
-        const payload = tabla === 'producto' ? { categoria, nombre, variante, precio, stock } : { categoria, nombre, variante, precio }
+        const payload = tabla === 'producto' ? { categoria, nombre, variante, precio, precio_costo, stock } : { categoria, nombre, variante, precio }
 
         if (id) {
             await supabase.from(tabla === 'servicio' ? 'servicios' : 'productos').update(payload).eq('id', id)
         } else {
             await supabase.from(tabla === 'servicio' ? 'servicios' : 'productos').insert([payload])
         }
-        cerrarModalCatalogo()
+        window.cerrarModalCatalogo()
         await cargarDatosBase()
         renderizarTablasCatalogoAdmin()
     }
@@ -535,6 +551,42 @@ window.eliminarCatalogoItem = async function(tabla, id) {
         await supabase.from(tabla === 'servicio' ? 'servicios' : 'productos').delete().eq('id', id)
         await cargarDatosBase()
         renderizarTablasCatalogoAdmin()
+    }
+}
+
+// 6.5. GESTIÓN DE GASTOS FIJOS
+async function cargarGastosFijosUI() {
+    const contenedor = document.getElementById('lista-gastos-fijos')
+    if (!contenedor) return
+    
+    const { data, error } = await supabase.from('gastos_fijos').select('*').order('id')
+    if (error) { console.error(error); return }
+    gastosFijosCache = data || []
+
+    contenedor.innerHTML = gastosFijosCache.map(g => `
+        <div class="flex items-center justify-between gap-2 bg-gray-50 dark:bg-gray-900 p-2.5 rounded-lg border dark:border-gray-700">
+            <span class="text-xs font-semibold">${esc(g.concepto)}</span>
+            <div class="flex items-center gap-1">
+                <span class="text-xs text-gray-400">$</span>
+                <input type="number" id="gasto-monto-${g.id}" value="${g.monto}" class="p-1.5 border dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-xs w-28 text-right font-bold text-emerald-500">
+            </div>
+        </div>
+    `).join('')
+}
+
+window.guardarGastosFijos = async function() {
+    try {
+        for (const g of gastosFijosCache) {
+            const input = document.getElementById(`gasto-monto-${g.id}`)
+            if (input) {
+                const nuevoMonto = parseFloat(input.value) || 0
+                await supabase.from('gastos_fijos').update({ monto: nuevoMonto, actualizado_at: new Date().toISOString() }).eq('id', g.id)
+            }
+        }
+        alert("¡Gastos fijos actualizados con éxito!")
+    } catch (e) {
+        console.error(e)
+        alert("Error al actualizar gastos.")
     }
 }
 
@@ -596,7 +648,7 @@ async function calcularEstadisticasVentas() {
     } catch (e) { console.error("Error calculando estadísticas:", e) }
 }
 
-// 8. BUSCAR EN HISTORIAL (CON ANULACIÓN SEGURA SIN BORRAR)
+// 8. BUSCAR EN HISTORIAL
 window.verHistorialPorBusqueda = async function(parametro) {
     const texto = parametro || buscadorCelular.value.trim()
     if (!texto) return alert("Ingrese un nombre o celular.")
@@ -616,7 +668,6 @@ window.verHistorialPorBusqueda = async function(parametro) {
 
         data.forEach(item => {
             const fechaFmt = new Date(item.fecha_atencion).toLocaleString('es-ES', { dateStyle: 'medium', timeStyle: 'short' })
-            
             let ticketAsociado = null
             if (item.notas && item.notas.includes('[VENTA #')) {
                 const matchTicket = item.notas.match(/\[VENTA #([A-Z0-9]+)\]/)
@@ -641,7 +692,6 @@ if (btnBuscar) btnBuscar.onclick = () => window.verHistorialPorBusqueda()
 if (buscadorCelular) buscadorCelular.onkeypress = (e) => { if (e.key === 'Enter') window.verHistorialPorBusqueda() }
 if (btnLimpiar) btnLimpiar.onclick = () => { buscadorCelular.value = ''; historialTabla.innerHTML = `<tr><td colspan="5" class="px-4 py-3 text-center text-gray-500">Ingrese un nombre o número para buscar en el historial.</td></tr>` }
 
-// Función puente para disparar la anulación de la venta master desde el historial de clientas
 window.anularVentaMasterDesdeHistorial = async function(ticket) {
     await window.anularVentaMaster(ticket)
     window.verHistorialPorBusqueda(buscadorCelular.value.trim())
@@ -654,7 +704,7 @@ window.eliminarHistorialDirecto = async function(id) {
     }
 }
 
-// 9. PANEL DE CLIENTES Y BÚSQUEDA INTELIGENTE
+// 9. CLIENTES Y BÚSQUEDA
 const clienteKey = (n, c) => `${String(n || '').trim().toLowerCase()}_${digits(c)}`
 
 async function cargarClientesDir() {
@@ -1215,7 +1265,7 @@ window.filtrarBuscadorMaster = function() {
 window.imprimirReporteMaster = function() {
     window.print()
 }
-// NUEVA FUNCIÓN: Anula de forma segura sin borrar físicamente del sistema
+
 window.anularRegistroHistorial = async function(idHistorial, ticket) {
     const passwordIngresado = prompt(`🔒 SEGURIDAD: Ingrese la contraseña de autorización para anular este registro:`)
     if (passwordIngresado === null) return
@@ -1247,7 +1297,9 @@ window.anularRegistroHistorial = async function(idHistorial, ticket) {
         console.error(e)
         alert("Hubo un error al anular el registro.")
     }
-}// ==========================================
+}
+
+// ==========================================
 // ASISTENTE INTELIGENTE CON API DE GEMINI Y SUPABASE
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -1274,12 +1326,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const idCarga = agregarMensajeUI('Analizando con IA...', 'ia', true)
 
         try {
-            // 1. Recopilar datos frescos de Supabase antes de consultar a Gemini
             const contextoNegocio = await obtenerContextoSupabaseParaIA()
-
-            // 2. Enviar la pregunta y el contexto fresco a tu endpoint / API de Gemini
             const respuestaIA = await consultarGeminiConContexto(texto, contextoNegocio)
-            
             reemplazarMensajeCarga(idCarga, respuestaIA)
         } catch (err) {
             console.error(err)
@@ -1309,14 +1357,14 @@ document.addEventListener('DOMContentLoaded', () => {
         contenedorMsgs.scrollTop = contenedorMsgs.scrollHeight
     }
 
-    // 📊 FUNCIÓN QUE EMPAQUETA TODOS LOS DATOS DE SUPABASE EN JSON/TEXTO
     async function obtenerContextoSupabaseParaIA() {
-        const [resVentas, resTurnos, resHistorial, resProd, resServ] = await Promise.all([
+        const [resVentas, resTurnos, resHistorial, resProd, resServ, resGastos] = await Promise.all([
             supabase.from('ventas_master').select('*'),
             supabase.from('turnos').select('*'),
             supabase.from('historial_clientes').select('*'),
             supabase.from('productos').select('*'),
-            supabase.from('servicios').select('*')
+            supabase.from('servicios').select('*'),
+            supabase.from('gastos_fijos').select('*')
         ])
 
         return {
@@ -1325,14 +1373,12 @@ document.addEventListener('DOMContentLoaded', () => {
             historial_clientas: resHistorial.data || [],
             productos: resProd.data || [],
             servicios: resServ.data || [],
+            gastos_fijos_mensuales: resGastos.data || [],
             fecha_actual: new Date().toISOString()
         }
     }
 
-    // 🤖 FUNCIÓN QUE LLAMA A TU API / BACKEND CON GEMINI
     async function consultarGeminiConContexto(preguntaUsuario, contexto) {
-        // Aquí realizas el fetch a tu función serverless en Vercel (por ejemplo, /api/chat-gemini)
-        // que es la encargada de invocar la SDK de Google Gemini manteniendo oculta tu API Key.
         const response = await fetch('/api/chat-gemini', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1347,4 +1393,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json()
         return data.respuesta || 'No se obtuvo respuesta de la IA.'
     }
+})
+
+// Enlace seguro por si los botones usan ID
+document.addEventListener('DOMContentLoaded', () => {
+    const btnX = document.getElementById('btn-cerrar-modal-x')
+    const btnCancelar = document.getElementById('btn-cancelar-modal')
+
+    if (btnX) btnX.addEventListener('click', window.cerrarModalCatalogo)
+    if (btnCancelar) btnCancelar.addEventListener('click', window.cerrarModalCatalogo)
 })

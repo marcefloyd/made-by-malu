@@ -4,72 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Salón de Belleza</title>
-    <!-- Mantenemos Tailwind para la grilla y posicionamiento -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', }
     </script>
-    <!-- Y sumamos tu hoja de estilos complementaria si querés personalizar cosas -->
     <link rel="stylesheet" href="css/styles2.css">
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
 
     <!-- DASHBOARD PRINCIPAL -->
     <div id="dashboard-section">
-        <header class="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
-            <style>
-                @media print {
-                    body * { visibility: hidden; }
-                    #modal-buscador-master, #modal-buscador-master * { visibility: visible; }
-                    #modal-buscador-master {
-                        position: absolute; left: 0; top: 0; width: 100%; background: white !important; padding: 0 !important;
-                    }
-                    #modal-buscador-master button { display: none !important; }
-                }
-            </style>
-            <div class="max-w-7xl mx-auto px-4 py-3">
-                <div class="flex justify-between items-center gap-3">
-                    <div class="flex items-center gap-3">
-                        <h1 class="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100">💅 Panel Pro de Belleza</h1>
-                        <button onclick="abrirBuscadorMaestro()" class="hidden sm:flex bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition items-center gap-1">
-                            🔍 Buscador Master & Cierres
-                        </button>
-                    </div>
-                    
-                    <div class="flex items-center gap-2">
-                        <button id="theme-toggle-btn" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 p-2 rounded-md hover:bg-gray-300 text-sm" title="Cambiar Tema">🌙</button>
-                        <button id="logout-btn" class="hidden sm:block bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md hover:bg-gray-300 text-xs font-medium">Cerrar Sesión</button>
-                        
-                        <!-- Botón Menú Hamburguesa para Móviles -->
-                        <button id="menu-hamburguesa-btn" class="md:hidden bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 p-2 rounded-md hover:bg-gray-300 text-sm focus:outline-none" aria-label="Abrir Menú">
-                            ☰
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Buscador Master responsive extra para móvil -->
-                <div class="mt-2 sm:hidden flex justify-between items-center">
-                    <button onclick="abrirBuscadorMaestro()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1">
-                        🔍 Buscador Master & Cierres
-                    </button>
-                </div>
-
-                <!-- Navegación Adaptable / Menú Colapsable para Celular -->
-                <nav id="menu-navegacion" class="hidden md:flex flex-col md:flex-row justify-center md:justify-between items-center gap-2 w-full pt-3 pb-1 border-t dark:border-gray-700 mt-3 md:border-0 md:mt-0 md:pt-0">
-                    <div class="flex flex-col md:flex-row flex-wrap justify-center gap-1.5 w-full md:w-auto">
-                        <button onclick="cambiarPestana('turnos')" id="nav-btn-turnos" class="bg-pink-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm w-full md:w-auto text-center">Turnos y Agenda</button>
-                        <button onclick="cambiarPestana('ventas')" id="nav-btn-ventas" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center">🛒 Ventas (POS)</button>
-                        <button onclick="cambiarPestana('catalogo')" id="nav-btn-catalogo" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center">Catálogo</button>
-                        <button onclick="cambiarPestana('estadisticas')" id="nav-btn-estadisticas" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center">📊 Estadísticas</button>
-                    </div>
-                    <div class="block md:hidden w-full pt-2 border-t dark:border-gray-700">
-                        <button id="logout-btn-mobile" class="w-full bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-300 px-3 py-2 rounded-md hover:bg-red-200 text-xs font-medium text-center">Cerrar Sesión</button>
-                    </div>
-                </nav>
+       <header class="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+    <style>
+        @media print {
+            body * { visibility: hidden; }
+            #modal-buscador-master, #modal-buscador-master * { visibility: visible; }
+            #modal-buscador-master {
+                position: absolute; left: 0; top: 0; width: 100%; background: white !important; padding: 0 !important;
+            }
+            #modal-buscador-master button { display: none !important; }
+        }
+    </style>
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <div class="flex justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <h1 class="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100">💅 Panel Pro de Belleza</h1>
+                <button onclick="abrirBuscadorMaestro()" class="hidden sm:flex bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition items-center gap-1">
+                    🔍 Buscador Master & Cierres
+                </button>
             </div>
-        </header>
+            
+            <div class="flex items-center gap-2">
+                <button id="theme-toggle-btn" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 p-2 rounded-md hover:bg-gray-300 text-sm" title="Cambiar Tema">🌙</button>
+                <button id="logout-btn" class="hidden sm:block bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md hover:bg-gray-300 text-xs font-medium">Cerrar Sesión</button>
+                <button id="menu-hamburguesa-btn" class="md:hidden bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 p-2 rounded-md hover:bg-gray-300 text-sm focus:outline-none" aria-label="Abrir Menú">
+                    ☰
+                </button>
+            </div>
+        </div>
 
-        <!-- Script simple para manejar el menú hamburguesa -->
+        <div class="mt-2 sm:hidden flex justify-between items-center">
+            <button onclick="abrirBuscadorMaestro()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1">
+                🔍 Buscador Master & Cierres
+            </button>
+        </div>
+
+        <nav id="menu-navegacion" class="hidden md:flex flex-col md:flex-row justify-center md:justify-between items-center gap-2 w-full pt-3 pb-1 border-t dark:border-gray-700 mt-3 md:border-0 md:mt-0 md:pt-0">
+            <div class="flex flex-col md:flex-row flex-wrap justify-center gap-1.5 w-full md:w-auto">
+                <button onclick="cambiarPestana('turnos')" id="nav-btn-turnos" class="bg-pink-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm w-full md:w-auto text-center">Turnos y Agenda</button>
+                <button onclick="cambiarPestana('ventas')" id="nav-btn-ventas" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center">🛒 Ventas (POS)</button>
+                <button onclick="cambiarPestana('catalogo')" id="nav-btn-catalogo" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center">Catálogo</button>
+                <button onclick="cambiarPestana('gastos')" id="nav-btn-gastos" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center">💰 Costos y Gastos</button>
+                <button onclick="cambiarPestana('estadisticas')" id="nav-btn-estadisticas" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-gray-300 w-full md:w-auto text-center">📊 Estadísticas</button>
+            </div>
+            <div class="block md:hidden w-full pt-2 border-t dark:border-gray-700">
+                <button id="logout-btn-mobile" class="w-full bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-300 px-3 py-2 rounded-md hover:bg-red-200 text-xs font-medium text-center">Cerrar Sesión</button>
+            </div>
+        </nav>
+    </div>
+</header>
+
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const btnHamburguesa = document.getElementById('menu-hamburguesa-btn');
@@ -79,8 +73,6 @@
                         menuNavegacion.classList.toggle('hidden');
                     });
                 }
-                
-                // Conectar logout mobile si existe
                 const logoutMobile = document.getElementById('logout-btn-mobile');
                 const logoutDesktop = document.getElementById('logout-btn');
                 if(logoutMobile && logoutDesktop) {
@@ -94,7 +86,6 @@
             <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm h-fit border dark:border-gray-700">
                 <h2 class="text-base font-semibold mb-3 text-gray-800 dark:text-gray-100">Agendar Nuevo Turno</h2>
                 <form id="turno-form" class="space-y-3">
-                    <!-- Buscador Inteligente de Clienta para Turnos -->
                     <div id="turno-cliente-wrap" class="relative space-y-1.5">
                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Clienta (Nombre o Celular)</label>
                         <input type="text" id="turno-cliente-buscar" autocomplete="off" placeholder="Escribí nombre o celular..." required class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-xs">
@@ -326,7 +317,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Tabla Servicios -->
                 <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm border dark:border-gray-700 space-y-3">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-sm text-pink-600">💅 Servicios (Agenda)</h3>
@@ -348,7 +338,6 @@
                     </div>
                 </div>
 
-                <!-- Tabla Productos -->
                 <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm border dark:border-gray-700 space-y-3">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-sm text-indigo-600">📦 Productos (POS / Stock)</h3>
@@ -367,6 +356,25 @@
                                 <tr><td colspan="3" class="text-center py-4 text-gray-500">Cargando productos...</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- SECCIÓN: COSTOS Y GASTOS FIJOS -->
+        <main id="seccion-gastos" class="max-w-7xl mx-auto px-4 py-6 hidden space-y-5">
+            <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm border dark:border-gray-700">
+                <h2 class="text-base font-bold text-gray-800 dark:text-gray-100 mb-1">💰 Gestión de Gastos Fijos del Salón</h2>
+                <p class="text-[11px] text-gray-500 mb-4">Actualiza aquí el alquiler, servicios y otros gastos mensuales para que el asistente IA calcule la ganancia neta real.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-3">
+                        <div id="lista-gastos-fijos" class="space-y-2"></div>
+                        <button onclick="guardarGastosFijos()" class="bg-pink-600 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-pink-700">💾 Guardar Cambios de Gastos</button>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl text-xs space-y-2">
+                        <h3 class="font-bold text-pink-600">💡 ¿Para qué sirve esto?</h3>
+                        <p class="text-gray-500">Cuando le preguntes a la IA por tus proyecciones a 3 o 6 meses, restará automáticamente estos gastos fijos y el costo mayorista de los productos para darte la <strong>ganancia neta real</strong>.</p>
                     </div>
                 </div>
             </div>
@@ -410,45 +418,49 @@
         </main>
     </div>
 
-    <!-- MODAL: AGREGAR / EDITAR SERVICIO O PRODUCTO -->
-    <div id="modal-catalogo" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl w-full max-w-md p-5 space-y-3 shadow-2xl">
-            <div class="flex justify-between items-center border-b dark:border-gray-700 pb-2.5">
-                <h3 id="modal-titulo-cat" class="font-bold text-sm text-gray-900 dark:text-gray-100">Nuevo Ítem</h3>
-                <button onclick="cerrarModalCatalogo()" class="text-gray-400 hover:text-white font-bold">✕</button>
-            </div>
-            <form id="form-modal-catalogo" class="space-y-2.5">
-                <input type="hidden" id="cat-id">
-                <input type="hidden" id="cat-tipo-tabla">
-                <div>
-                    <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Categoría</label>
-                    <input type="text" id="cat-categoria" placeholder="Ej: Uñas, Pestañas" required class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
-                </div>
-                <div>
-                    <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Nombre</label>
-                    <input type="text" id="cat-nombre" placeholder="Ej: Soft Gel" required class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
-                </div>
-                <div>
-                    <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Variante / Talle (Opcional)</label>
-                    <input type="text" id="cat-variante" placeholder="Ej: Talle M, Clásico" class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Precio ($)</label>
-                        <input type="number" id="cat-precio" required class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
-                    </div>
-                    <div id="campo-stock-wrap">
-                        <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Stock</label>
-                        <input type="number" id="cat-stock" placeholder="Ej: 15" class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
-                    </div>
-                </div>
-                <div class="pt-2 flex justify-end gap-2">
-                    <button type="button" onclick="cerrarModalCatalogo()" class="bg-gray-200 dark:bg-gray-700 px-3.5 py-2 rounded-lg text-xs font-semibold">Cancelar</button>
-                    <button type="submit" class="bg-pink-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-pink-700">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
+   <!-- MODAL: AGREGAR / EDITAR SERVICIO O PRODUCTO -->
+   <div id="modal-catalogo" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center z-50 p-4">
+       <div class="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl w-full max-w-md p-5 space-y-3 shadow-2xl">
+           <div class="flex justify-between items-center border-b dark:border-gray-700 pb-2.5">
+               <h3 id="modal-titulo-cat" class="font-bold text-sm text-gray-900 dark:text-gray-100">Nuevo Ítem</h3>
+               <button type="button" id="btn-cerrar-modal-x" class="text-gray-400 hover:text-white font-bold">✕</button>
+           </div>
+           <form id="form-modal-catalogo" class="space-y-2.5">
+               <input type="hidden" id="cat-id">
+               <input type="hidden" id="cat-tipo-tabla">
+               <div>
+                   <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Categoría</label>
+                   <input type="text" id="cat-categoria" placeholder="Ej: Uñas, Pestañas" required class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
+               </div>
+               <div>
+                   <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Nombre</label>
+                   <input type="text" id="cat-nombre" placeholder="Ej: Soft Gel" required class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
+               </div>
+               <div>
+                   <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Variante / Talle (Opcional)</label>
+                   <input type="text" id="cat-variante" placeholder="Ej: Talle M, Clásico" class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
+               </div>
+               <div class="grid grid-cols-2 gap-2">
+                   <div>
+                       <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Precio Venta ($)</label>
+                       <input type="number" id="cat-precio" required class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
+                   </div>
+                   <div id="campo-costo-wrap">
+                       <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Precio Costo ($)</label>
+                       <input type="number" id="cat-costo" placeholder="Ej: 5000" class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
+                   </div>
+               </div>
+               <div id="campo-stock-wrap">
+                   <label class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Stock</label>
+                   <input type="number" id="cat-stock" placeholder="Ej: 15" class="w-full mt-1 p-2 border dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-xs">
+               </div>
+               <div class="pt-2 flex justify-end gap-2">
+                   <button type="button" id="btn-cancelar-modal" class="bg-gray-200 dark:bg-gray-700 px-3.5 py-2 rounded-lg text-xs font-semibold">Cancelar</button>
+                   <button type="submit" class="bg-pink-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-pink-700">Guardar</button>
+               </div>
+           </form>
+       </div>
+   </div>
 
     <!-- MODAL: BUSCADOR AVANZADO DE VENTAS MASTER Y CIERRES -->
     <div id="modal-buscador-master" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center z-50 p-4">
@@ -505,38 +517,34 @@
         </div>
 
     <script type="module" src="js/admin2.js"></script>
-    <!-- ASISTENTE VIRTUAL INTELIGENTE (CHATBOT SAAS) -->
-<div id="chat-widget-container" class="fixed bottom-5 right-5 z-50">
-    <!-- Botón Flotante para abrir/cerrar -->
-    <button id="chat-toggle-btn" class="bg-pink-600 hover:bg-pink-700 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-105">
-        💬
-    </button>
 
-    <!-- Ventana del Chat (Oculta por defecto) -->
-    <div id="chat-window" class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden max-h-[500px]">
-        <!-- Cabecera del Chat -->
-        <div class="bg-pink-600 text-white p-3.5 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                <h3 class="font-bold text-xs">Asistente IA - Panel Pro</h3>
+    <!-- ASISTENTE VIRTUAL INTELIGENTE -->
+    <div id="chat-widget-container" class="fixed bottom-5 right-5 z-50">
+        <button id="chat-toggle-btn" class="bg-pink-600 hover:bg-pink-700 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-105">
+            💬
+        </button>
+
+        <div id="chat-window" class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden max-h-[500px]">
+            <div class="bg-pink-600 text-white p-3.5 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                    <h3 class="font-bold text-xs">Asistente IA - Panel Pro</h3>
+                </div>
+                <button id="chat-close-btn" class="text-white hover:text-gray-200 font-bold text-sm">✕</button>
             </div>
-            <button id="chat-close-btn" class="text-white hover:text-gray-200 font-bold text-sm">✕</button>
-        </div>
 
-        <!-- Cuerpo de Mensajes -->
-        <div id="chat-mensajes" class="p-3.5 flex-1 overflow-y-auto space-y-3 text-xs min-h-[280px] max-h-[350px]">
-            <div class="bg-gray-100 dark:bg-gray-800 p-2.5 rounded-xl rounded-tl-none max-w-[85%] text-gray-800 dark:text-gray-200">
-                ¡Hola! Soy tu asistente de negocio. Pregúntame sobre las ventas de hoy, turnos o stock de productos y te responderé con datos en tiempo real de Supabase. 🚀
+            <div id="chat-mensajes" class="p-3.5 flex-1 overflow-y-auto space-y-3 text-xs min-h-[280px] max-h-[350px]">
+                <div class="bg-gray-100 dark:bg-gray-800 p-2.5 rounded-xl rounded-tl-none max-w-[85%] text-gray-800 dark:text-gray-200">
+                    ¡Hola! Soy tu asistente de negocio. Pregúntame sobre las ventas de hoy, turnos o stock de productos y te responderé con datos en tiempo real de Supabase. 🚀
+                </div>
             </div>
-        </div>
 
-        <!-- Barra de Entrada de Texto -->
-        <div class="p-3 border-t dark:border-gray-800 bg-gray-50 dark:bg-gray-900 flex gap-2">
-            <input type="text" id="chat-input" placeholder="Ej: ¿Cuánto vendimos hoy?" class="flex-1 p-2 border dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none">
-            <button id="chat-enviar-btn" class="bg-pink-600 hover:bg-pink-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition">Enviar</button>
+            <div class="p-3 border-t dark:border-gray-800 bg-gray-50 dark:bg-gray-900 flex gap-2">
+                <input type="text" id="chat-input" placeholder="Ej: ¿Cuánto vendimos hoy?" class="flex-1 p-2 border dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none">
+                <button id="chat-enviar-btn" class="bg-pink-600 hover:bg-pink-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition">Enviar</button>
+            </div>
         </div>
     </div>
-</div>
     
 </body>
 </html>
