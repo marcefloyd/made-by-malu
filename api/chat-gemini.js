@@ -46,7 +46,7 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
 `;
 
         // Se mantiene el modelo exacto que utilizas y te funciona
-        const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
+        const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
