@@ -47,7 +47,8 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
 /// Lista ampliada de modelos ordenados por prioridad de uso
 const modelosAProbar = [
     'gemini-3.6-flash',
-    'gemini-3.1-flash-lite', // ¡Aprovechando que tiene bastante disponibilidad!
+    'gemini-3.1-flash-lite', 
+    'gemini-3.8-flash-lite',
     'gemini-2.5-flash-lite',
     'gemini-2.5-flash'
 ];
