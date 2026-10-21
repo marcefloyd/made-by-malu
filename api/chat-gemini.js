@@ -46,70 +46,66 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
 6. **Proactividad:** Cierra cada análisis clave con una sugerencia de negocio accionable y breve para la administración.
 `;
 
-        // Lista ampliada con los modelos 3.8 y 3.6 preferidos
-const modelosAProbar = [
-    'gemini-3.8-flash',
-    'gemini-3.6-flash',
-    'gemini-2.5-flash-lite',
-    'gemini-2.5-flash'
-];
+       // Lista con el modelo limpio y con cuota disponible
+    const modelosAProbar = [
+        'gemini-3.6-flash'
+    ];
 
-        let respuestaTexto = null;
-        let exito = false;
-        let ultimoError = '';
+    let respuestaTexto = null;
+    let exito = false;
+    let ultimoError = '';
 
-        for (const modelo of modelosAProbar) {
-            try {
-                const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
+    for (const modelo of modelosAProbar) {
+        try {
+            const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    system_instruction: {
+                        parts: [{ text: systemInstruction }]
                     },
-                    body: JSON.stringify({
-                        system_instruction: {
-                            parts: [{ text: systemInstruction }]
-                        },
-                        contents: [
-                            {
-                                role: 'user',
-                                parts: [
-                                    { text: `CONTEXTO ACTUAL DE LA BASE DE DATOS (SUPABASE):\n${contextoJSON}` },
-                                    { text: `PREGUNTA DEL ADMINISTRADOR: ${pregunta}` }
-                                ]
-                            }
-                        ],
-                        generationConfig: {
-                            temperature: 0.2
+                    contents: [
+                        {
+                            role: 'user',
+                            parts: [
+                                { text: `CONTEXTO ACTUAL DE LA BASE DE DATOS (SUPABASE):\n${contextoJSON}` },
+                                { text: `PREGUNTA DEL ADMINISTRADOR: ${pregunta}` }
+                            ]
                         }
-                    })
-                });
-
-                const data = await geminiResponse.json();
-
-                if (geminiResponse.ok) {
-                    respuestaTexto = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                    if (respuestaTexto) {
-                        exito = true;
-                        break; // Si respondió bien, salimos del bucle con éxito
+                    ],
+                    generationConfig: {
+                        temperature: 0.2
                     }
-                } else {
-                    ultimoError = data.error?.message || 'Error desconocido';
-                    console.warn(`El modelo ${modelo} falló, intentando con el siguiente...`);
+                })
+            });
+
+            const data = await geminiResponse.json();
+
+            if (geminiResponse.ok) {
+                respuestaTexto = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (respuestaTexto) {
+                    exito = true;
+                    break; // Si respondió bien, salimos del bucle con éxito
                 }
-            } catch (err) {
-                ultimoError = err.message;
-                console.warn(`Error de conexión con el modelo ${modelo}:`, err.message);
+            } else {
+                ultimoError = data.error?.message || 'Error desconocido';
+                console.warn(`El modelo ${modelo} falló, intentando con el siguiente...`);
             }
+        } catch (err) {
+            ultimoError = err.message;
+            console.warn(`Error de conexión con el modelo ${modelo}:`, err.message);
         }
-
-        if (!exito) {
-            return res.status(500).json({ error: 'Todos los modelos están ocupados o alcanzaron su límite. Detalle: ' + ultimoError });
-        }
-
-        return res.status(200).json({ respuesta: respuestaTexto });
-
-    } catch (error) {
-        console.error('Error detallado:', error);
-        return res.status(500).json({ error: 'Error interno: ' + error.message });
     }
+
+    if (!exito) {
+        return res.status(500).json({ error: 'Todos los modelos están ocupados o alcanzaron su límite. Detalle: ' + ultimoError });
+    }
+
+    return res.status(200).json({ respuesta: respuestaTexto });
+
+} catch (error) {
+    console.error('Error detallado:', error);
+    return res.status(500).json({ error: 'Error interno: ' + error.message });
 }
