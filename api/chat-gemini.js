@@ -45,6 +45,7 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
 5. **Proactividad:** Cierra cada análisis clave con una sugerencia de negocio accionable y breve para la administración.
 `;
 
+        // Se mantiene el modelo exacto que utilizas y te funciona
         const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
